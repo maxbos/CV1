@@ -28,8 +28,15 @@ normal = zeros(h, w, 3);
 %   solve scriptI * scriptV * g = scriptI * i to obtain g for this point
 %   albedo at this point is |g|
 %   normal at this point is g / |g|
-
-
+for x = 1:w
+    for y = 1:h
+        i = ;
+        scriptI = ;
+        g = ;
+        albedo(y,x) = det(g);
+        normal(y,x) = g / det(g);
+    end
+end
 
 % =========================================================================
 
