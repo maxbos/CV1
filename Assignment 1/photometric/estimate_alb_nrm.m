@@ -30,11 +30,12 @@ normal = zeros(h, w, 3);
 %   normal at this point is g / |g|
 for x = 1:w
     for y = 1:h
-        i = image_stack(y, x, :);
+        i = squeeze(image_stack(y, x, :));
         scriptI = i.' .* eye(n_imgs);
-        g = inv(scriptV) * inv(scriptI) * scriptI * i;
-        albedo(y,x) = det(g);
-        normal(y,x) = g / det(g);
+%         g = inv(scriptV) * inv(scriptI) * scriptI * i;
+        g = linsolve(scriptI * scriptV, scriptI * i);
+        albedo(y,x,1) = norm(g);
+        normal(y,x,:) = g / norm(g);
     end
 end
 
