@@ -20,6 +20,8 @@ end
 albedo = zeros(h, w, 1);
 normal = zeros(h, w, 3);
 
+warning('off','all');
+
 % =========================================================================
 % YOUR CODE GOES HERE
 % for each point in the image array

@@ -15,7 +15,8 @@ SE = zeros(size(normals));
 % Compute p and q, where
 % p measures value of df / dx
 % q measures value of df / dy
-
+p = ;
+q = ;
 
 % ========================================================================
 
