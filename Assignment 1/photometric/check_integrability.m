@@ -25,8 +25,6 @@ q = normals(:, :, 2) ./ normals(:, :, 3);
 p(isnan(p)) = 0;
 q(isnan(q)) = 0;
 
-
-
 % ========================================================================
 % YOUR CODE GOES HERE
 % approximate second derivate by neighbor difference
