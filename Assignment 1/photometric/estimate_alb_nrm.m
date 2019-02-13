@@ -33,8 +33,12 @@ warning('off','all');
 for x = 1:w
     for y = 1:h
         i = squeeze(image_stack(y, x, :));
-        scriptI = i.' .* eye(n_imgs);
-        g = linsolve(scriptI * scriptV, scriptI * i);
+        scriptI = i' .* eye(n_imgs);
+        if shadow_trick
+            g = linsolve(scriptI * scriptV, scriptI * i);
+        else
+            g = linsolve(scriptV, i);
+        end
         albedo(y,x,1) = norm(g);
         normal(y,x,:) = g / norm(g);
     end
