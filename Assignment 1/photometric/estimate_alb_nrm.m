@@ -32,7 +32,6 @@ for x = 1:w
     for y = 1:h
         i = squeeze(image_stack(y, x, :));
         scriptI = i.' .* eye(n_imgs);
-%         g = inv(scriptV) * inv(scriptI) * scriptI * i;
         g = linsolve(scriptI * scriptV, scriptI * i);
         albedo(y,x,1) = norm(g);
         normal(y,x,:) = g / norm(g);
