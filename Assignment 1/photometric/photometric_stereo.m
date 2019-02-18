@@ -33,6 +33,11 @@ height_map = construct_surface( p, q, 'average' );
 show_results(albedo, normals, SE);
 show_model(albedo, height_map);
 
+%% Shape by comparison difference experiments
+col_hm = construct_surface( p, q, 'column' );
+row_hm = construct_surface( p, q, 'row' );
+avg_hm = construct_surface( p, q, 'average' );
+inspect_height_maps(albedo, normals, col_hm, row_hm, avg_hm);
 
 %% Face
 [image_stack, scriptV] = load_face_images('./photometrics_images/yaleB02/');
