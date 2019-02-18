@@ -9,16 +9,19 @@ close all
 %given (addition, scaling). If only one method is graded, please ignore the
 %addition algorithm.
 
+awb('awb.jpg')
+
+function awb(input_image)
 %read image to process
-I = imread('awb.jpg');
+I = imread(input_image);
 
 %grey world assumes that RGB values are linear, .jpg is saved in
 %gamma-corrected sRGB space (according to matlab docs). rgb2lin() corrects this. 
 I_lin = rgb2lin(I);
 
 %get sizes for further computations
-size = size(I_lin);
-layer_size = [size(1)*size(2), 1];
+imgsize = size(I_lin);
+layer_size = [imgsize(1)*imgsize(2), 1];
 
 %save rgb values in separate vectors
 r_old = (reshape(I_lin(:,:,1), layer_size));
@@ -74,3 +77,6 @@ subplot(3,1,2),imshow(grey_world_add);
 subplot(3,1,2),annotation('textbox',[0.1 0.3 0.3 0.3], 'String', 'Grey World Addition-Processed Image', 'FitBoxToText','on')
 subplot(3,1,3),imshow(grey_world_scaled);
 subplot(3,1,3),annotation('textbox',[0.1 0.0 0.3 0.3], 'String', 'Grey World Scaling-Processed Image', 'FitBoxToText','on')
+end
+
+
