@@ -20,8 +20,6 @@ end
 albedo = zeros(h, w, 1);
 normal = zeros(h, w, 3);
 
-warning('off','all');
-
 % =========================================================================
 % YOUR CODE GOES HERE
 % for each point in the image array
@@ -33,9 +31,9 @@ warning('off','all');
 for x = 1:w
     for y = 1:h
         i = squeeze(image_stack(y, x, :));
-        scriptI = i' .* eye(n_imgs);
+        scriptI = i .* eye(n_imgs);
         if shadow_trick
-            g = linsolve(scriptI * scriptV, scriptI * i);
+             g = linsolve(scriptI * scriptV, scriptI * i);
         else
             g = linsolve(scriptV, i);
         end
