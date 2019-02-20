@@ -5,19 +5,24 @@ clc
 close all
 
 I = imread('peppers.png');
-size(I)
-J = ConvertColorSpace(I,'opponent');
+
+O = ConvertColorSpace(I,'opponent');
  
-close all
-J = ConvertColorSpace(I,'rgb');
+% close all
+N = ConvertColorSpace(I,'rgb');
 
 % close all
-% J = ConvertColorSpace(I,'hsv');
+H = ConvertColorSpace(I,'hsv');
 
 % close all
-% J = ConvertColorSpace(I,'ycbcr');
+Y = ConvertColorSpace(I,'ycbcr');
 
 % close all
-% J = ConvertColorSpace(I,'gray');
+G = ConvertColorSpace(I,'gray');
 
-visualize(J)
+% visualize(G)
+% visualize(H)
+% visualize(I)
+% visualize(N)
+% visualize(O)
+% visualize(Y)
