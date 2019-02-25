@@ -72,7 +72,7 @@ clear all
 clc
 disp('Part 1.4.2 - 3 channel albedo')
 disp('Loading images...')
-image_dir = './photometrics_images/SphereColor/';
+image_dir = './photometrics_images/MonkeyColor/';
 
 % We need to load the image stack for each of the 3 channels
 warning('off')
@@ -97,7 +97,7 @@ hm_2 = construct_surface( p_2, q_2, 'average' );
 hm_3 = construct_surface( p_3, q_3, 'average' );
 % p = calc_avg(p_1, p_2, p_3);
 % q = calc_avg(q_1, q_2, q_3);
-% SE = calc_avg(SE_1, SE_2, SE_3);
+SE = calc_avg(SE_1, SE_2, SE_3);
 height_map = calc_avg(hm_1, hm_2, hm_3);
 
 normals = calc_avg(nrm_1, nrm_2, nrm_3);
