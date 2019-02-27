@@ -42,7 +42,7 @@ imwrite(im_direction, '4.3.1-im_direction.png');
 
 figure(1);
 subplot(2,3,1); imshow(og_im); title('original');
-subplot(2,3,2); imshow(Gx); title('applying 1D filter');
-subplot(2,3,3); imshow(Gy); title('applying 2D filter');
-subplot(2,3,4); imshow(im_magnitude); title('applying 2D filter');
-subplot(2,3,5); imshow(im_direction); title('applying 2D filter');
+subplot(2,3,2); imshow(Gx); title('Gx');
+subplot(2,3,3); imshow(Gy); title('Gy');
+subplot(2,3,4); imshow(im_magnitude); title('image magnitude');
+subplot(2,3,5); imshow(im_direction); title('image direction');
