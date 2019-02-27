@@ -6,23 +6,33 @@ og_im = imread('images/image1.jpg');
 
 filter_1d = gauss1D(2, 5);
 filter_2d = gauss2D(2, 5);
-result_1d_filter = uint8(conv2(filter_1d, filter_1d, og_im));
-result_2d_filter = uint8(conv2(filter_2d, og_im));
+result_1d_filter = mat2gray(conv2(filter_1d, filter_1d, og_im));
+result_2d_filter = mat2gray(conv2(filter_2d, og_im));
 
-imwrite(og_im, '3.1.2-og_im.png');
-imwrite(result_1d_filter, '3.1.2-1Df_im.png');
-imwrite(result_2d_filter, '3.1.2-2Df_im.png');
+mkdir('3.1.2');
+imwrite(og_im, '3.1.2/og_im.png');
+imwrite(result_1d_filter, '3.1.2/1Df_im.png');
+imwrite(result_2d_filter, '3.1.2/2Df_im.png');
 
 % figure(1);
 % subplot(1,3,1); imshow(og_im); title('original');
 % subplot(1,3,2); imshow(result_1d_filter); title('applying 1D filter');
 % subplot(1,3,3); imshow(result_2d_filter); title('applying 2D filter');
 
+disp(sum(sum(result_2d_filter-result_1d_filter)));
+
 figure(2);
 diff = result_2d_filter - result_1d_filter;
-plot(diff);
-title('difference between 1D and 2D filter conv. result');
-saveas(gcf, '3.1.2-difference.png');
+imshow(mat2gray(diff));
+title('difference between 2D and 1D filter conv. result');
+imwrite(mat2gray(diff), '3.1.2/difference.png');
+% saveas(gcf, '3.1.2/difference.png');
+
+% figure(2);
+% diff = result_2d_filter - result_1d_filter;
+% plot(diff);
+% title('difference between 1D and 2D filter conv. result');
+% saveas(gcf, '3.1.2-difference.png');
 
 %% 4.3.1 First-order derivative filters
 % Using your implemented function compute gradient on image2.jpg, display
@@ -34,25 +44,26 @@ og_im = imread('images/image2.jpg');
 
 [Gx, Gy, im_magnitude, im_direction] = compute_gradient(og_im);
 
-imwrite(og_im, '4.3.1-og_im.png');
-imwrite(Gx, '4.3.1-Gx.png');
-imwrite(Gy, '4.3.1-Gy.png');
-imwrite(im_magnitude, '4.3.1-im_magnitude.png');
-imwrite(im_direction, '4.3.1-im_direction.png');
+mkdir('4.3.1');
+imwrite(og_im, '4.3.1/og_im.png');
+imwrite(mat2gray(Gx), '4.3.1/Gx.png');
+imwrite(mat2gray(Gy), '4.3.1/Gy.png');
+imwrite(mat2gray(im_magnitude), '4.3.1/im_magnitude.png');
+imwrite(mat2gray(im_direction), '4.3.1/im_direction.png');
 
 figure(1);
-subplot(2,3,1); imshow(og_im); title('original');
-subplot(2,3,2); imshow(Gx); title('Gradient in x-direction');
-subplot(2,3,3); imshow(Gy); title('Gradient in y-direction');
-subplot(2,3,4); imshow(im_magnitude); title('Gradient magnitude of each pixel');
-subplot(2,3,5); imshow(im_direction); title('Gradient direction of each pixel');
+subplot(2,3,1); imshow(mat2gray(og_im)); title('original');
+subplot(2,3,2); imshow(mat2gray(Gx)); title('Gradient in x-direction');
+subplot(2,3,3); imshow(mat2gray(Gy)); title('Gradient in y-direction');
+subplot(2,3,4); imshow(mat2gray(im_magnitude)); title('Gradient magnitude of each pixel');
+subplot(2,3,5); imshow(mat2gray(im_direction)); title('Gradient direction of each pixel');
 
 %%
 % Testing, TODO: check if these differences are correct
-og_im = imread('images/image2.jpg');
+og_im = imread('coins.png');
 
 [Gx, Gy, im_magnitude, im_direction] = compute_gradient(og_im);
-[Gmag, Gdir] = imgradient(og_im);
+[Gmag, Gdir] = imgradient(og_im, 'prewitt');
 subplot(2,2,1); imshow(im_magnitude);
 subplot(2,2,2); imshow(Gmag);
 subplot(2,2,3); imshow(im_direction);
@@ -84,5 +95,3 @@ subplot(2,2,1); imshow(og_im); title('Original image');
 subplot(2,2,2); imshow(method_1); title('Method 1');
 subplot(2,2,3); imshow(method_2); title('Method 2');
 subplot(2,2,4); imshow(method_3); title('Method 3');
-
-
