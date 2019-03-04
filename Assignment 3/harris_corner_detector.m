@@ -6,30 +6,47 @@ if nargin == 1
     visFlag = true;
 end
 
+% Convert image to gray and double values
 img = im2double(rgb2gray(img));
-% Ix = imgaussfilt(img, 10, 'FilterSize', [1,9]);
-% Iy = imgaussfilt(img, 10, 'FilterSize', [9,1]);
 
-G=fspecial('gauss',[9, 9], 2);
-[Gx,Gy] = gradient(G);  
-Ix = imfilter(img, Gx);
-Iy = imfilter(img, Gy);
+% Create Gaussian filter and do elementwise
+% multiplication to increase effectiveness
+G = fspecial('gaussian', 7, 0.7).*6;
+% Get gradients of Gaussian in x and y direction
+[Gx, Gy] = gradient(G);
 
-A = imgaussfilt(Ix.^2);
-B = imgaussfilt(Ix.*Iy);
-C = imgaussfilt(Iy.^2);
-H = (A.*C-B.^2)-0.04*(A+C).^2;
+% Convolve image with Gaussian derivatives
+Ix = conv2(Gx, img);
+Iy = conv2(Gy, img);
 
-maxima = islocalmax(H, 'ProminenceWindow', 5, 'MinProminence', 0.015);
+% Square previous result and convolve with Gaussian
+% to find A, B and C
+A = conv2(G, Ix.^2);
+B = conv2(G, Ix.*Iy);
+C = conv2(G, Iy.^2);
+
+% Calculate H matrix
+H = (A.*C)-(B.^2)-0.04*(A+C).^2;
+
+% Keep values above threshold
+J = imhmax(H, 0.3);
+% Find coordinates of local maxima
+maxima = imregionalmax(J);
 [r,c] = find(maxima);
 
+% Plot results
 if visFlag
-    figure(1);
-    subplot(1,3,1); imshow(Ix);
-    subplot(1,3,2); imshow(Iy);
+    figure('Position', [200 200 900 600]);
+    subplot(1,3,1); 
+    imshow(Ix);
+    title('First order Gaussian derivative in x-direction');
+    subplot(1,3,2); 
+    imshow(Iy);
+    title('First order Gaussian derivative in y-direction');
     subplot(1,3,3);
     imshow(img);
+    title('Detected corners');
     hold on
-    plot(r,c,'r*');
+    plot(c,r,'r.');
     hold off
 end
