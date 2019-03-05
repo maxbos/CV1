@@ -7,7 +7,7 @@ function [x,y,u,v] = lucas_kanade(img1, img2, window_size)
 if (sum(size(size(imread(img1)))) > 3) % weird way to check if RGB
     
 %     read images into matrices
-    imgmat = rgb2gray(imread(img1))
+    imgmat = rgb2gray(imread(img1));
     imgmat2 = rgb2gray(imread(img2));
 else
     imgmat = imread(img1);
@@ -20,9 +20,9 @@ img1cut = divide(imgmat, window_size);
 img2cut = divide(imgmat2, window_size);
 
 % define optical flow matrices
-windowsN = floor(img_size/window_size)
-u = zeros(windowsN)
-v = zeros(windowsN)
+windowsN = floor(img_size/window_size);
+u = zeros(windowsN);
+v = zeros(windowsN);
 
 % set xy grid to plot flow vectors, based on window and image size
 x = ceil(window_size/2):window_size:img_size(1)-1;
