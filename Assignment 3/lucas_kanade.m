@@ -24,8 +24,8 @@ u = zeros(windowsN);
 v = zeros(windowsN);
 
 % set xy grid to plot flow vectors, based on window and image size
-x = ceil(window_size/2):window_size:img_size(1)-1;
-y = ceil(window_size/2):window_size:img_size(2)-1;
+x = ceil(window_size/2):window_size:img_size(2)-1;
+y = ceil(window_size/2):window_size:img_size(1)-1;
 
 % calculate flow vectors for every window
 for i = 1:windowsN(1)
