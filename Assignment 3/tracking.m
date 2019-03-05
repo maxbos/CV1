@@ -1,52 +1,57 @@
-function video = tracking(frameFolder)
-%UNTITLED2 Summary of this function goes here
-%   Detailed explanation goes here
-    % obtain many images in a fixed view under different illumination
-    files=dir(fullfile(frameFolder,'*.jpeg'));
-    im=fullfile(frameFolder,files(1).name());
-    im=imread(im);
-    [h,r,c]=harris_corner_detector(im,false);
-
-    cNew=c;
-
-    rNew=r;
-
+function tracking_final(frameFolder)
+    files = dir(fullfile(frameFolder, '*.jpeg'));
+    nfiles = length(files);
+    
+    window_size = 16;
+    
+    % Calculate the corners on the first image.
+    og_im_path = fullfile(frameFolder, files(1).name);
+    im = imread(og_im_path);
+    [~, y_harris, x_harris] = harris_corner_detector(im, false);
+    %C = corner(rgb2gray(im), 'Harris', 100);
+    %y_harris = C(:,2);
+    %x_harris = C(:,1);
+    ncornerpoints = length(y_harris);
+    
+    og_im_size = size(im);
+    
     video = VideoWriter('yourvideo.avi'); %create the video object
     open(video); %open the file for writing
     
-    write_video(1, im, cNew, rNew);
-
-    for i=1:3
-        im1=fullfile(frameFolder,files(i).name());
-        im2=fullfile(frameFolder,files(i+1).name());
-%         [x,y,u,v] = lucas_kanade(im1,im2, 15);
-        
-
-        for i_r = 1:length(r)
-            for j_c = 1:length(c)
-                % i1 is the vertical x-index of the region in which cNew for this
-                % point can be found
-                [v1,i1] = min(abs(x-cNew(j_c)));
-                % i2 is the horizontal y-index of the region in which rNew
-                % for this point can be found
-                [v2,i2] = min(abs(y-rNew(i_r)));
-                cNew(j_c)=cNew(j_c)+v(i2,i1);
-                rNew(i_r)=rNew(i_r)+u(i2,i1);
-            end
+    for file = 2:nfiles
+        % Calculate the optical flow between this image and the original
+        % image from which the corners were detected.
+        prev_im_path = fullfile(frameFolder, files(file-1).name);
+        curr_im_path = fullfile(frameFolder, files(file).name);
+        [x, y, u, v] = lucas_kanade(prev_im_path, curr_im_path, window_size);
+        % Loop through each corner point and update its position.
+        for corner_idx = 1:ncornerpoints
+            m = y_harris(corner_idx);
+            n = x_harris(corner_idx);
+            [patch_x, patch_y] = get_patch_index(n, m, u);
+            y_harris(corner_idx) = max(1, min(uint8(m + v(patch_y, patch_x)*window_size), og_im_size(1)));
+            x_harris(corner_idx) = max(1, min(uint8(n + u(patch_y, patch_x)*window_size), og_im_size(2)));
         end
-        write_video(i+1, im2, cNew, rNew);
-
+        write_video(file, imread(curr_im_path), x_harris, y_harris,u,v,x,y);
     end
+    
     close(video); %close the file
-
-    function write_video(i,im, c, r)
-        figure(i);
+    
+    function [patch_x, patch_y] = get_patch_index(x, y, u)
+        [patches_h, patches_w] = size(u);
+        patch_x = max(1, min(ceil(x/window_size), patches_w));
+        patch_y = max(1, min(ceil(y/window_size), patches_h));
+    end
+    
+    function write_video(i, im, c, r, u, v,x,y)
+        % n = index of the column
+        % m = index of the row
+        f = figure('visible','off');
         imshow(im);
         hold on;
-        plot(c,r,'r.');
+%         quiver(x,y,u,v, 'color', [1 0 0])
+        scatter(c, r);
         hold off;
-      %read the next image
-       writeVideo(video,getframe(gcf)); %write the image to file
+        writeVideo(video,getframe(f)); %write the image to file
     end
 end
-
