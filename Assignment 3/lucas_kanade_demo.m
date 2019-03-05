@@ -1,6 +1,7 @@
 % sphere
 [x,y,u,v] = lucas_kanade("sphere1.ppm", "sphere2.ppm", 15);
-figure;
+figure(1);
+sphere1=imread("sphere1.ppm");
 imshow(sphere1)
 hold on
 quiver(x,y,u,v, 'color', [1 0 0])
@@ -8,7 +9,9 @@ quiver(x,y,u,v, 'color', [1 0 0])
 
 % synth
 [x,y,u,v] = lucas_kanade("synth1.pgm", "synth2.pgm", 15);
-figure;
+length(x)
+figure(2);
+synth1=imread("synth1.pgm");
 imshow(synth1)
 hold on
 quiver(x,y,u,v, 'color', [1 0 0])
