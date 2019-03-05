@@ -19,3 +19,9 @@ im = imread('person_toy/00000001.jpg');
 im = imrotate(im, 90);
 % Find and plot corners
 [H, r, c] = harris_corner_detector(im);
+
+%% pingpong toy
+im = imread('person_toy/00000001.jpg');
+im = imrotate(im, 90);
+% Find and plot corners
+[H, r, c] = harris_corner_detector(im);

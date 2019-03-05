@@ -33,10 +33,16 @@ hold off
 
 
 %% lucas kanade
-[x,y,u,v] = lucas_kanade("0000.jpeg", "0001.jpeg", 15);
+[x,y,u,v] = lucas_kanade("0000.jpeg", "0001.jpeg", 16);
 figure(1);
 sphere1 = imread("0000.jpeg");
-imshow(sphere1)
+subplot(1,2,1);
+imshow(sphere1);
+hold on
+quiver(x,y,u,v, 'color', [1 0 0])
+hold off
+subplot(1,2,2);
+imshow(imread("0001.jpeg"));
 hold on
 quiver(x,y,u,v, 'color', [1 0 0])
 hold off
