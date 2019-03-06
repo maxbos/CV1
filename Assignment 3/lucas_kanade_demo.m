@@ -7,13 +7,8 @@ hold on
 quiver(x,y,u,v, 'color', [1 0 0])
 hold off
 
-% figure(2);
-% sphere1 = imread("sphere1.ppm");
-% imshow(sphere1)
-% hold on
-% quiver(x,y,u,v, 'color', [1 0 0])
-% hold off
-
+mkdir 'lucas_kanade';
+saveas(gcf, 'lucas_kanade/sphere.png');
 
 %% synth
 [x,y,u,v] = lucas_kanade("synth1.pgm", "synth2.pgm", 15);
@@ -21,28 +16,23 @@ figure(2);
 synth1 = imread("synth1.pgm");
 imshow(synth1)
 hold on
-quiver(y,x,u,v, 'color', [1 0 0])
-hold off
-
-figure(3);
-synth1 = imread("synth1.pgm");
-imshow(synth1)
-hold on
 quiver(x,y,u,v, 'color', [1 0 0])
 hold off
 
+mkdir 'lucas_kanade';
+saveas(gcf, 'lucas_kanade/synth.png');
 
-%% lucas kanade
-[x,y,u,v] = lucas_kanade("0000.jpeg", "0001.jpeg", 16);
+%% 
+[x,y,u,v] = lucas_kanade('pingpong./0000.jpeg', 'pingpong/0001.jpeg', 16);
 figure(1);
-sphere1 = imread("0000.jpeg");
+sphere1 = imread('pingpong/0000.jpeg');
 subplot(1,2,1);
 imshow(sphere1);
 hold on
 quiver(x,y,u,v, 'color', [1 0 0])
 hold off
 subplot(1,2,2);
-imshow(imread("0001.jpeg"));
+imshow(imread('pingpong0001.jpeg'));
 hold on
 quiver(x,y,u,v, 'color', [1 0 0])
 hold off

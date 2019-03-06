@@ -52,7 +52,7 @@ A = [reshape(Ix, [], 1) reshape(Iy, [], 1)];
 end
 
 function [b] = computeb(img1, img2)
-b = reshape((img1 - img2),[], 1);
+b = reshape((double(img1) - double(img2)),[], 1);
 end
 
 function [divided] = divide(img, window_size)

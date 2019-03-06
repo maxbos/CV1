@@ -1,5 +1,5 @@
-function tracking_final(frameFolder)
-    files = dir(fullfile(frameFolder, '*.jpeg'));
+function tracking(frameFolder, ext, videoName)
+    files = dir(fullfile(frameFolder, ext));
     nfiles = length(files);
     
     window_size = 16;
@@ -15,7 +15,7 @@ function tracking_final(frameFolder)
     
     og_im_size = size(im);
     
-    video = VideoWriter('yourvideo.avi'); %create the video object
+    video = VideoWriter(videoName); %create the video object
     open(video); %open the file for writing
     
     for file = 2:nfiles
@@ -29,8 +29,10 @@ function tracking_final(frameFolder)
             m = y_harris(corner_idx);
             n = x_harris(corner_idx);
             [patch_x, patch_y] = get_patch_index(n, m, u);
-            y_harris(corner_idx) = max(1, min(uint8(m + v(patch_y, patch_x)*window_size), og_im_size(1)));
-            x_harris(corner_idx) = max(1, min(uint8(n + u(patch_y, patch_x)*window_size), og_im_size(2)));
+            y_harris(corner_idx) = m + v(patch_y, patch_x)*(window_size-1);
+            x_harris(corner_idx) = n + u(patch_y, patch_x)*(window_size-1);
+%             y_harris(corner_idx) = max(1, min(uint8(m + v(patch_y, patch_x)*(window_size-1)), og_im_size(1)));
+%             x_harris(corner_idx) = max(1, min(uint8(n + u(patch_y, patch_x)*(window_size-1)), og_im_size(2)));
         end
         write_video(file, imread(curr_im_path), x_harris, y_harris,u,v,x,y);
     end
@@ -47,10 +49,11 @@ function tracking_final(frameFolder)
         % n = index of the column
         % m = index of the row
         f = figure('visible','off');
+%         f = figure;
         imshow(im);
         hold on;
-%         quiver(x,y,u,v, 'color', [1 0 0])
-        scatter(c, r);
+        quiver(x,y,u,v, 'color', [1 0 0])
+        plot(c,r,'b.');
         hold off;
         writeVideo(video,getframe(f)); %write the image to file
     end
