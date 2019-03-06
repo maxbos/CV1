@@ -1,4 +1,4 @@
-function tracking(frameFolder, ext, videoName)
+function tracking(frameFolder, ext, videoName, scale)
     files = dir(fullfile(frameFolder, ext));
     nfiles = length(files);
     
@@ -29,10 +29,8 @@ function tracking(frameFolder, ext, videoName)
             m = y_harris(corner_idx);
             n = x_harris(corner_idx);
             [patch_x, patch_y] = get_patch_index(n, m, u);
-            y_harris(corner_idx) = m + v(patch_y, patch_x)*(window_size-1);
-            x_harris(corner_idx) = n + u(patch_y, patch_x)*(window_size-1);
-%             y_harris(corner_idx) = max(1, min(uint8(m + v(patch_y, patch_x)*(window_size-1)), og_im_size(1)));
-%             x_harris(corner_idx) = max(1, min(uint8(n + u(patch_y, patch_x)*(window_size-1)), og_im_size(2)));
+            y_harris(corner_idx) = m + v(patch_y, patch_x)*scale;
+            x_harris(corner_idx) = n + u(patch_y, patch_x)*scale;
         end
         write_video(file, imread(curr_im_path), x_harris, y_harris,u,v,x,y);
     end
