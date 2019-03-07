@@ -5,10 +5,10 @@
 % points, and plot on the image. Connect matching pairs with lines.
 % You can assign a random color to each line to make them easier to
 % distinguish.
-[kp_matches, kp_scores] = keypoint_matching('boat1.pgm', 'boat2.pgm');
+[kp, kp_matches, kp_scores] = keypoint_matching('boat1.pgm', 'boat2.pgm')
 
 % 3. Create a function that performs the RANSAC algorithm as explained
 % above. The function should return the best transformation found. For
 % visualization, show the transformations from image1 to image2 and from
 % image2 to image1.
-best_transformation = RANSAC(kp_matches);
+best_transformation = RANSAC(kp, kp_matches);
