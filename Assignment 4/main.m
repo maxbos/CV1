@@ -29,7 +29,7 @@ transformationParams = RANSAC(kp_matches, fa, fb, 100, 10);
 originalImg = imread('boat1.pgm');
 
 % Transform using nearest-neighbor interpolation.
-transformedImg = transformationParams * double(originalImg);
+transformedImg = transformNearestNeighborInterpolation(originalImg);
 figure;
 subplot(1, 2, 1); imshow(originalImg);
 subplot(1, 2, 2); imshow(transformedImg);

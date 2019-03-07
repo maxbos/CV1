@@ -38,7 +38,12 @@ function bestTransformationParams = RANSAC(matches, fa, fb, ...
         x = horzcat(reshape(x, 2, 3)', [0;0;1]);
         % Using the transformation parameters, transform the location of
         % all points.
-        transformedCoords = x * coords;
+%         size(coords')
+%         size(x)
+        transformedCoords = (coords' * x)';
+%         size(transformedCoords)
+%         transformedCoords = double(x) * double(coords)
+%         size(x * coords)
         % Normalize all transformed coords by their z dimension, setting
         % z to 1.
         for t = 1:length(transformedCoords(1,:))

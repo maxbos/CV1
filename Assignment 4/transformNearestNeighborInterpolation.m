@@ -5,7 +5,9 @@ function R = transformNearestNeighborInterpolation(I, matrix)
     % Prepare the transformed image.
     R = zeros(I_height, I_width);
     
-    coords = [x y 1]';
+    x = linspace(1, I_height, I_height);
+    y = linspace(1, I_width, I_width);
+    coords = meshgrid(x, y);
     transformedCoords = matrix * coords;
     for t = 1:length(transformedCoords(1,:))
         transformedCoords(:,t) = transformedCoords(:,t) / ...
