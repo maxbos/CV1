@@ -1,6 +1,10 @@
-function [transformation] = RANSAC(matches, fa, fb, nIterations, nPoints)
-%
-%
+function bestTransformationParams = RANSAC(matches, fa, fb, ...
+                                           nIterations, nPoints)
+% Compute the parameters for the affine transformation that transformed
+% image points `fa` into points `fb`.
+
+    bestInlierIndices = [];
+    bestTransformationParams = [];
     nMatches = length(matches(1,:));
     
     % Prepare the coordinates of the matching keypoints from the first
@@ -9,7 +13,12 @@ function [transformation] = RANSAC(matches, fa, fb, nIterations, nPoints)
               fa(2, matches(1, :)); % y coordinates
               ones(1, length(fa(1, matches(1, :)))) % z coordinates
              ];
-    
+    % Prepare the coordinates of the matching keypoints for the final
+    % second image.
+    result = [fb(1, matches(2, :)); 
+              fb(2, matches(2, :)); 
+              ones(1, length(fb(1, matches(2, :))))];
+          
     for n = 1:nIterations
         % Get `nPoints` random indices from the whole set of matches.
         index = randi(nMatches, [1 nPoints]);
@@ -36,8 +45,12 @@ function [transformation] = RANSAC(matches, fa, fb, nIterations, nPoints)
         % Count the number of inliers, inliers being defined as the number
         % of transformed points from image1 that lie within a radius of
         % 10 pixels of their pair in image2.
-        for p = 1:length(transformedCoords)
-            
+        distances = sqrt((transformedCoords(1, :) - result(1, :)).^ 2 + ...
+            (transformedCoords(1, :) - result(1, :)) .^2);
+        inlierIndices = find(distances < 10);
+        if length(inlierIndices) > length(bestInlierIndices)
+            bestInlierIndices = inlierIndices;
+            bestTransformationParams = x;
         end
     end
 end
