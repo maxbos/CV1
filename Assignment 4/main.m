@@ -1,4 +1,4 @@
-%% Image Alignment
+%% Image Alignment -> Calculate keypoint matching and plotting matches
 clear all
 % 1. Get keypoint matchings between the two boat images.
 [fa, fb, kp_matches, kp_scores] = keypoint_matching('boat1.pgm', 'boat2.pgm');
@@ -20,8 +20,23 @@ yb = yb(sample_indices);
 % Plot the matches
 plot_matches('boat1.pgm', 'boat2.pgm', [xa;ya], [xb;yb]);
 
+%% Image Alignment -> Calculate transformation parameters using RANSAC
 % 3. Create a function that performs the RANSAC algorithm as explained
 % above. The function should return the best transformation found. For
 % visualization, show the transformations from image1 to image2 and from
 % image2 to image1.
-best_transformation = RANSAC(kp_matches, fa, fb, 100, 10);
+transformationParams = RANSAC(kp_matches, fa, fb, 100, 10);
+originalImg = imread('boat1.pgm');
+
+% Transform using nearest-neighbor interpolation.
+transformedImg = transformationParams * double(originalImg);
+figure;
+subplot(1, 2, 1); imshow(originalImg);
+subplot(1, 2, 2); imshow(transformedImg);
+
+% Also, transform using MATLAB built-in `imwarp`, and compare the results
+% with own nearest-neigbor interpolation.
+matlabTransformedImg = imwarp(originalImg, transformationParams);
+figure;
+subplot(1, 2, 1); imshow(originalImg);
+subplot(1,2,2); imshow(matlabTransformedImg);

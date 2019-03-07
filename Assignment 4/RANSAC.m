@@ -25,14 +25,17 @@ function bestTransformationParams = RANSAC(matches, fa, fb, ...
         % Get the subset of matches.
         selection = matches(:, index);
         % Construct the A matrix from the subset of matches.
-        x = fa(1, selection(1, :));
-        y = fa(2, selection(1, :));
-        oddRows = [x, y, 0, 0, 1, 0];
-        evenRows = [0, 0, x, y, 0, 1];
+        x = fa(1, selection(1, :))';
+        y = fa(2, selection(1, :))';
+        o = ones(size(x));
+        z = zeros(size(x));
+        oddRows = [x, y, z, z, o, z];
+        evenRows = [z, z, x, y, z, o];
         A = [oddRows; evenRows];
         % Construct b from the subset of matches.
         b = [fb(1, selection(2, :)) fb(2, selection(2, :))]';
         x = pinv(A)*b;
+        x = horzcat(reshape(x, 2, 3)', [0;0;1]);
         % Using the transformation parameters, transform the location of
         % all points.
         transformedCoords = x * coords;
