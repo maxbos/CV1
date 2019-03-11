@@ -2,8 +2,15 @@ function plot_matches(img1, img2, points1, points2)
 % plot_matches
 %   Plot matches between img1, img2 based on the x,y
 %   locations in each image
-im1 = imread(img1);
-im2 = imread(img2);
+if (isinteger(img1)) 
+    im1 = img1;
+    im2 = img2;
+else
+    im1 = imread(img1);
+    im2 = imread(img2);
+end
+
+
 % Concatenate images
 im = cat(2, im1, im2);
 imshow(im);

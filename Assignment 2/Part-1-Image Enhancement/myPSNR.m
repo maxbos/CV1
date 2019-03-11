@@ -2,7 +2,7 @@ function [ PSNR ] = myPSNR( orig_image, approx_image )
 
 O = imread(orig_image);
 % A = imread(approx_image);
-A = approx_image;
+A = imread(approx_image);
 
 imsize = size(O)
 
