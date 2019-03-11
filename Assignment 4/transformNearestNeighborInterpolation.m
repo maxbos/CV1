@@ -1,30 +1,23 @@
-function R = transformNearestNeighborInterpolation(I, matrix)
+function R = transformNearestNeighborInterpolation(I, affineTransformation)
     I_size = size(I);
     I_height = I_size(1);
     I_width = I_size(2);
+    nIndices = I_height*I_width;
+    
+    [X, Y] = meshgrid(1:I_width, 1:I_height);
+    indices = [X(:)'; Y(:)'; ones(1, nIndices)];
+    
+    % Apply the affine transformation on the coordinates of the original
+    % image, as to calculate the new position of an original coordinate.
+    transformedIndices = (affineTransformation' * indices);
     % Prepare the transformed image.
     R = zeros(I_height, I_width);
     
-    x = linspace(1, I_width, I_width);
-    y = linspace(1, I_height, I_height);
-    [X, Y] = meshgrid(x, y);
-    transformedCoords = matrix * coords;
-    for t = 1:length(transformedCoords(1,:))
-        transformedCoords(:,t) = transformedCoords(:,t) / ...
-            transformedCoords(3,t);
+    % Loop through each coordinate and get the pixel value at each original
+    % position after applying the affine transformation.
+    for i = 1:nIndices
+        R(indices(2, i), indices(1, i)) = pixelValue(I, ...
+            transformedIndices(1, i), transformedIndices(2, i));
     end
-    
-    % Loop through each coordinate and get the 
-    for x = 1:I_width
-        for y = 1:I_height
-            coord = [x y 1]';
-            transformedCoords = matrix * coord;
-            for t = 1:length(transformedCoords(1,:))
-                transformedCoords(:,t) = transformedCoords(:,t) / ...
-                    transformedCoords(3,t);
-            end
-            transformedCoords
-            R(y, x) = I();
-        end
-    end
+    R = mat2gray(R);
 end
