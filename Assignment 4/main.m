@@ -25,18 +25,21 @@ plot_matches('boat1.pgm', 'boat2.pgm', [xa;ya], [xb;yb]);
 % above. The function should return the best transformation found. For
 % visualization, show the transformations from image1 to image2 and from
 % image2 to image1.
+
+% transformationParams = ransacTest(kp_matches, fa, fb, 4, 20, 0.25, 0.4)
 transformationParams = RANSAC(kp_matches, fa, fb, 100, 10);
+
 originalImg = imread('boat1.pgm');
 
 % Transform using nearest-neighbor interpolation.
-transformedImg = transformNearestNeighborInterpolation(originalImg);
-figure;
-subplot(1, 2, 1); imshow(originalImg);
-subplot(1, 2, 2); imshow(transformedImg);
+% transformedImg = transformNearestNeighborInterpolation(originalImg, transformationParams);
+% figure;
+% subplot(1, 2, 1); imshow(originalImg);
+% subplot(1, 2, 2); imshow(transformedImg);
 
 % Also, transform using MATLAB built-in `imwarp`, and compare the results
 % with own nearest-neigbor interpolation.
-tform = affine2d(transformationParams);
+tform = affine2d(transformationParams');
 matlabTransformedImg = imwarp(originalImg, tform);
 figure;
 subplot(1, 2, 1); imshow(originalImg);

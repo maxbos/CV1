@@ -27,23 +27,25 @@ function bestTransformationParams = RANSAC(matches, fa, fb, ...
         % Construct the A matrix from the subset of matches.
         x = fa(1, selection(1, :))';
         y = fa(2, selection(1, :))';
-        o = ones(size(x));
-        z = zeros(size(x));
+        o = ones(nPoints, 1);
+        z = zeros(nPoints, 1);
+%         oddRows = reshape([x, y, z, z, o, z], 1, []);
+%         evenRows = reshape([z, z, x, y, z, o], 1, []);
         oddRows = [x, y, z, z, o, z];
         evenRows = [z, z, x, y, z, o];
+        % Reshape the matrix to the format [oddRow; evenRow; oddRow2;
+        % evenRow2; etc.]
+%         A = reshape([oddRows; evenRows], nPoints*2, []);
         A = [oddRows; evenRows];
         % Construct b from the subset of matches.
+%         b = reshape([fb(1, selection(2, :)); fb(2, selection(2, :))], nPoints*2, []);
         b = [fb(1, selection(2, :)) fb(2, selection(2, :))]';
-        x = pinv(A)*b;
-        x = horzcat(reshape(x, 2, 3)', [0;0;1]);
+        x = pinv(A)*b
+        x = [x(1), x(2), x(5); x(3) x(4) x(6); 0 0 1]
+%         x = horzcat(reshape(x, 2, 3)', [0;0;1])
         % Using the transformation parameters, transform the location of
         % all points.
-%         size(coords')
-%         size(x)
-        transformedCoords = (coords' * x)';
-%         size(transformedCoords)
-%         transformedCoords = double(x) * double(coords)
-%         size(x * coords)
+        transformedCoords = x * coords;
         % Normalize all transformed coords by their z dimension, setting
         % z to 1.
         for t = 1:length(transformedCoords(1,:))
