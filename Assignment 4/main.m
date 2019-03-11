@@ -26,7 +26,6 @@ plot_matches('boat1.pgm', 'boat2.pgm', [xa;ya], [xb;yb]);
 % visualization, show the transformations from image1 to image2 and from
 % image2 to image1.
 
-% transformationParams = ransacTest(kp_matches, fa, fb, 4, 20, 0.25, 0.4)
 transformationParams = RANSAC(kp_matches, fa, fb, 100, 10);
 
 originalImg = imread('boat1.pgm');
