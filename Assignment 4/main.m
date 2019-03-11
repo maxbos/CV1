@@ -43,6 +43,10 @@ matlabTransformedImg = imwarp(originalImg, tform);
 dispRansacResults(originalImg, matlabTransformedImg, ...
     'Transform using imwarp');
 
+mkdir 'ransac';
+imwrite(transformedImg, 'ransac/boat1Trans.png');
+imwrite(matlabTransformedImg, 'ransac/boat1TransMatlab.png');
+
 % Transform from boat2 to boat1.
 transformationParams = inv(transformationParams);
 
@@ -59,3 +63,6 @@ tform = affine2d(transformationParams');
 matlabTransformedImg = imwarp(originalImg, tform);
 dispRansacResults(originalImg, matlabTransformedImg, ...
     'Transform using imwarp');
+
+imwrite(transformedImg, 'ransac/boat2Trans.png');
+imwrite(matlabTransformedImg, 'ransac/boat2TransMatlab.png');
