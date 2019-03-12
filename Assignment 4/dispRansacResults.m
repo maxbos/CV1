@@ -1,6 +1,9 @@
 function dispRansacResults(originalImg, transformedImg, titleText)
     figure;
-    suptitle(titleText);
+    annotation('textbox', [0 0.9 1 0.1], ...
+        'String', titleText, ...
+        'EdgeColor', 'none', ...
+        'HorizontalAlignment', 'center');
     subplot(1, 2, 1); imshow(originalImg);
     subplot(1, 2, 2); imshow(transformedImg);
 end
