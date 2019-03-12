@@ -17,20 +17,15 @@ right = rgb2gray(imread('right.jpg'));
 
 % 1. Get keypoint matchings between the images to be stitched
 [fa, fb, kp_matches, kp_scores] = keypoint_matching(right, left);
-% 2. Take a random subset (with set size set to 10) of all matching points
-sample_indices = randsample(size(kp_matches,2), 10);
+% 2. Sort the matches
+[kp_scores_sorted, order] = sort(kp_scores);
+kp_matches_sorted = kp_matches(:,order);
 
-% Get the coordinate pairs
-xa = fa(1,kp_matches(1,:));
-xb = fb(1,kp_matches(2,:));
-ya = fa(2,kp_matches(1,:));
-yb = fb(2,kp_matches(2,:));
-
-% Pick the randomly selected coordinate pairs
-xa = xa(sample_indices);
-xb = xb(sample_indices);
-ya = ya(sample_indices);
-yb = yb(sample_indices);
+% Get the first 10 coordinate pairs
+xa = fa(1,kp_matches_sorted(1,1:10));
+xb = fb(1,kp_matches_sorted(2,1:10));
+ya = fa(2,kp_matches_sorted(1,1:10));
+yb = fb(2,kp_matches_sorted(2,1:10));
 
 % get transformation parameters
 transformationParams = RANSAC(kp_matches, fa, fb, 100, 10);
