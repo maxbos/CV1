@@ -1,8 +1,8 @@
-function bestTransformationParams = RANSAC(matches, fa, fb, ...
+function [bestTransformationParams, bestInIter] = RANSAC(matches, fa, fb, ...
                                            nIterations, nPoints)
 % Compute the parameters for the affine transformation that transformed
 % image points `fa` into points `fb`.
-
+    bestInIter = 0;
     bestInlierIndices = [];
     bestTransformationParams = [];
     nMatches = length(matches(1,:));
@@ -54,6 +54,7 @@ function bestTransformationParams = RANSAC(matches, fa, fb, ...
         if length(inlierIndices) > length(bestInlierIndices)
             bestInlierIndices = inlierIndices;
             bestTransformationParams = x;
+            bestInIter = n;
         end
     end
 end
