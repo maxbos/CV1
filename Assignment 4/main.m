@@ -66,3 +66,13 @@ dispRansacResults(originalImg, matlabTransformedImg, ...
 
 imwrite(transformedImg, 'ransac/boat2Trans.png');
 imwrite(matlabTransformedImg, 'ransac/boat2TransMatlab.png');
+
+%% Image alignment -> How many iterations are needed on average?
+% Make sure to run the first section of this main file first
+nIters = 10000;
+iters = zeros(nIters,1);
+for i=1:nIters
+    [params, bestIter] = RANSAC(kp_matches, fa, fb, 100, 10);
+    iters(i) = bestIter;
+end
+disp(['Average number of iterations necessary to find the best params: ', num2str(mean(iters))])
