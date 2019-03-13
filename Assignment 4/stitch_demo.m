@@ -1,4 +1,4 @@
 stitched = stitch('left.jpg', 'right.jpg');
 figure;
-imshow(stitched);
+imshow(uint8(stitched));
 title('Images transformed and stitched');

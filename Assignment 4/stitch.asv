@@ -46,15 +46,39 @@ function [stitched] = stitch(img1,img2)
     % Pad transformed image to create canvas to superimpose other image on
     [m n] = size(T)
     [a b]=size(left)
-    newSize=[round(m+abs(medy)) round(medx+n)];
+    newSize=[round(max(m+abs(medy),a)) round(medx+n)];
     T_pad=ones(newSize);
-    [l b]=size(T);
-    T_pad(end-l+1:end, end-b+1:end)=T;    
     
-    % Superimpose image on padded image
-    [l b]=size(left);
+    %T_new=MatrixReplace(T_pad,T);
+    [l b]=size(T);
+  
+    
+    T_pad(end-l+1:end, end-b+1:end)=T;
+    imshow(uint8(T_pad));
+    %size(left)
+    %p = 800;
+    %q = 800;
+    %T_pad = padarray(T, [floor((p-m)/2) floor((q-n)/2)], 'replicate','post');
+    %imshow(T_pad)
+    %T_pad = padarray(T_pad, [ceil((p-m)/2) ceil((q-n)/2)], 'replicate','pre');
+    
+    Tsize = size(T_pad);
+    [l b] = size(left);
+
+    %x = Tsize(1)/2 - (round_even(leftsize(1)))/2 - (medy)/2 ... 
+    %+ (0:leftsize(1)-1);
+    %y = Tsize(2)/2-(round_even(leftsize(2)))/2 - (medx) ... 
+    %+(0:leftsize(2)-1);
+    xBound=round_even(medx);
+    ystart=round_even(medy);
     x=[1:b];
-    y=[1:l];
+    y=[round_even(medy):l+round_even(medy)-1];
+    % Superimpose image on padded image
+    size(x)
+    max(x)
+    size(left)
+    size(T_pad)
+    %imshow(left(x,y))
     T_pad(y,x) = left;
     stitched = T_pad;
 
