@@ -1,0 +1,47 @@
+function [features] = extractFeatures(dataset,mode)
+%extractFeatures
+% Extracts features from a given dataset
+%              'airplane', 'bird', 'ship', 'horse', 'car'];
+classlabels = [1,           2,      9,      7,       3];
+if size(dataset.X) == [5000,27648]
+    % train
+    X = reshape(dataset.X,5000,96,96,3);
+else
+    % test
+    X = reshape(dataset.X,8000,96,96,3);
+end
+
+class_indices = ismember(dataset.y, classlabels);
+X = X(class_indices,:,:,:);
+
+% Test with first 50 images
+nImages = 50;
+
+featuresx = []
+featuresy=[];
+for i=1:nImages;
+   image = squeeze(X(i,:,:,:));
+   if mode == 'densesampling'
+       [fa, da] = vl_dsift(single(rgb2gray(image)));
+       % TODO
+       if i==1:
+       featuresx=concat(2,featuresx,da);
+       %featuresy=[featuresy;fa(2,:)];
+       %features(i,1) = fa[1];
+       %features(i,2
+   else
+       % TODO
+        [fa, da] = vl_sift(single(rgb2gray(image)));
+       % TODO
+       %features(i) = fa;
+   end
+   
+end
+featuresx;
+size(featuresx)
+size(featuresy)
+features=cat(3,featuresx, featuresy);
+size(features);
+
+end
+
