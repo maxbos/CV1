@@ -17,9 +17,10 @@ Assignment 1/photometric/spherecolor_avg_hm.png
 *.avi
 *.mov
 Assignment 3/yourvideo.avi
-Final project/stl10_matlab/*
+Final project/part-1/stl10_matlab/*
 Final project/vlfeat-0.9.21/
 Final project/vlfeat-0.9.21/*
-Final project/startup.m
+Final project/part-1/startup.m
+Final project/part-2/startup.m
 *.asv
 *.mat
