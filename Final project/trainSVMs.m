@@ -34,6 +34,6 @@ function models = trainSVMs(C, dataset, indices, mode)
         % Encode the features as normalized histograms.
         X = encodeFeatures(features, C);
         % Train the SVM model.
-        models.(fields(i)) = fitcsvm(X, y);
+        models.(fields{i}) = fitcsvm(X, y);
     end
 end
