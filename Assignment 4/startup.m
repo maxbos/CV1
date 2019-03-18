@@ -1,1 +1,1 @@
-run('~/vlfeat/toolbox/vl_setup')
+run('vlfeat-0.9.21/vlfeat/toolbox/vl_setup')

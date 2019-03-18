@@ -1,4 +1,4 @@
-function [features] = extractFeatures(dataset,mode)
+function [desc] = extractFeatures(dataset,mode)
 %extractFeatures
 % Extracts features from a given dataset
 %              'airplane', 'bird', 'ship', 'horse', 'car'];
@@ -16,18 +16,23 @@ X = X(class_indices,:,:,:);
 
 % Test with first 50 images
 nImages = 50;
-features = zeros(nImages);
+
+desc = [];
 for i=1:nImages;
    image = squeeze(X(i,:,:,:));
    if mode == 'densesampling'
        [fa, da] = vl_dsift(single(rgb2gray(image)));
-       % TODO
-       features(i) = fa;
+       desc=[desc;da];
+      
    else
        % TODO
-       features(i);
+        [fa, da] = vl_sift(single(rgb2gray(image)));
+        desc=[desc;da];
    end
    
 end
+sizeF=size(desc);
+desc=reshape(desc,[nImages,128,sizeF(2)]);
+
 end
 
