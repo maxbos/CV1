@@ -17,19 +17,15 @@ Assignment 1/photometric/spherecolor_avg_hm.png
 *.avi
 *.mov
 Assignment 3/yourvideo.avi
-<<<<<<< HEAD
-*.avi
- 12237019_10669027_10798463_10559736.zip
+12237019_10669027_10798463_10559736.zip
 Final project/part-1/startup.m
 Final project/part-1/main.asv
 Final project/part-1/stl10_matlab/test.mat
 Final project/part-1/stl10_matlab/train.mat
 Final project/part-1/stl10_matlab/unlabeled.mat
-=======
 Final project/stl10_matlab/*
 Final project/vlfeat-0.9.21/
 Final project/vlfeat-0.9.21/*
 Final project/startup.m
 *.asv
 *.mat
->>>>>>> parent of 8fa7fb5... Moved Part 1 to separate directory; added dir for part 2
