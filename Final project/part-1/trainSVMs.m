@@ -5,8 +5,9 @@ function models = trainSVMs(C, dataset, indices, mode)
     fields = fieldnames(indices);
     % Create an SVM Classifier for each class.
     for i = 1:numel(fields)
+        samples = zeros(250, 1);
         % Get 50 positive examples.
-        samples = datasample(indices.(fields{i}), nSamplesPerClass, ...
+        samples(1:50) = datasample(indices.(fields{i}), nSamplesPerClass, ...
             'Replace', false);
         % Get 200 negative examples, by getting 50 examples from each
         % class that is not the current positive class.
@@ -16,7 +17,7 @@ function models = trainSVMs(C, dataset, indices, mode)
             end
             negativeSamples = datasample(indices.(fields{j}), ...
                 nSamplesPerClass, 'Replace', false);
-            samples = [samples; negativeSamples];
+            samples(51:250) = negativeSamples;
         end
         % Retrieve all positive and negative samples.
         X = dataset.X(samples, :);
@@ -32,7 +33,7 @@ function models = trainSVMs(C, dataset, indices, mode)
         % Extract the features from the images.
         features = extractFeatures(X, mode);
         % Encode the features as normalized histograms.
-        X = encodeFeatures(features, C)
+        X = encodeFeatures(features, C);
         % Train the SVM model.
         models.(fields{i}) = fitcsvm(X, y);
     end

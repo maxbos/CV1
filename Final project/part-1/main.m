@@ -7,7 +7,9 @@ mode = 'densesampling';
 train = open('stl10_matlab/train.mat');
 % Get a part of the train images for training the vocabulary cluster
 % centroids.
+
 totalNumberImgsVocabulary = 750;
+
 [vocabularyX, vocabularyY, ...
     restIndices] = trainSplitForVocabulary(train, totalNumberImgsVocabulary);
 % Extract their SIFT descriptors from the images for building the
@@ -33,7 +35,7 @@ SVMModels = trainSVMs(C, train, restIndices, mode);
 
 %% Classification phase
 test = open('stl10_matlab/test.mat');
-batchSize = 100;
+batchSize = 800*5;
 classifications = classifyBatch(test, SVMModels, batchSize, mode, C);
 
 %% Results
