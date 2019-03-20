@@ -15,13 +15,17 @@ testX = encodeFeatures(testFeatures, C);
 fields = fieldnames(models);
 
 %  TO DO: softcode
-classLabels = [1, 2, 9, 7, 3];
+% classLabels = [1, 2, 9, 7, 3];
 
 % Iterate through binary SVM models classifying batch
 % and output score tables in classifications structure
 for i = 1:numel(fields)
+    % Get label for current positive class.
+    classLabels = strfind(dataset.class_names, fields{i});
+    classLabel = find(not(cellfun('isempty', classLabels)));
+    
     [label, score] = predict(models.(fields{i}), testX);
-    classifications.(fields{i}) = table((classLabels(i) == testY), ... 
+    classifications.(fields{i}) = table((classLabel == testY), ... 
         label,score(:,2),'VariableNames', {'TrueLabel', ...
         'PredictedLabel', 'Score'});
 end
