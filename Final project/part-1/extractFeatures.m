@@ -9,10 +9,8 @@ function desc = extractFeatures(X, mode)
         if mode == 'densesampling'
             % TODO: Perform smoothing?
             [fa, da] = vl_dsift(single(rgb2gray(image)));
-            desc = [desc; da];
-        else
-            % TODO
-            [fa, da] = vl_sift(single(rgb2gray(image)));
+%             [fa, da] = vl_phow(single(image)); Is deze functie cool?
+%             in werkgroep vragen
             desc = [desc; da];
         end
     end

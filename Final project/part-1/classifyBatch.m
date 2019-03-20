@@ -3,7 +3,7 @@ function [classifications] = classifyBatch(dataset, models, batchSize, mode, C)
 % supplied models and visual words (C) and visual word sampling method (mode) 
 classifications = struct;
 
-% Get data in compatable format
+% Get data in compatible format
 [testX, testY, ~ ] = trainSplitForVocabulary(dataset, batchSize);
 
 % Get features
