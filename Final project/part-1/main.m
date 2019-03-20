@@ -1,3 +1,8 @@
+% TO DO: Plot histograms of different photos
+% compare cluster sizes of 400, 1000 and 4000
+% Opponent & rgb sift
+% Evaluation plots 
+
 %% Training phase
 % Feature extraction and description
 clear
@@ -8,7 +13,7 @@ train = open('stl10_matlab/train.mat');
 % Get a part of the train images for training the vocabulary cluster
 % centroids.
 
-totalNumberImgsVocabulary = 750;
+totalNumberImgsVocabulary = 500;
 
 [vocabularyX, vocabularyY, ...
     restIndices] = trainSplitForVocabulary(train, totalNumberImgsVocabulary);

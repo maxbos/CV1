@@ -15,7 +15,7 @@ testX = encodeFeatures(testFeatures, C);
 fields = fieldnames(models);
 
 %  TO DO: softcode
-% classLabels = [1, 2, 9, 7, 3];
+classLabels = [1, 2, 9, 7, 3];
 
 % Iterate through binary SVM models classifying batch
 % and output score tables in classifications structure
