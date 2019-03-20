@@ -3,7 +3,7 @@ function [classifications] = classifyBatch(dataset, models, batchSize, mode, C)
 % supplied models and visual words (C) and visual word sampling method (mode) 
 classifications = struct;
 
-% Get data in compatable format
+% Get data in compatible format
 [testX, testY, ~ ] = trainSplitForVocabulary(dataset, batchSize);
 
 % Get features
@@ -15,7 +15,7 @@ testX = encodeFeatures(testFeatures, C);
 fields = fieldnames(models);
 
 %  TO DO: softcode
-% classLabels = [1, 2, 9, 7, 3];
+classLabels = [1, 2, 9, 7, 3];
 
 % Iterate through binary SVM models classifying batch
 % and output score tables in classifications structure

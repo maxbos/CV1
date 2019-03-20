@@ -1,3 +1,8 @@
+% TO DO: Plot histograms of different photos
+% compare cluster sizes of 400, 1000 and 4000
+% Opponent & rgb sift
+% Evaluation plots 
+
 %% Training phase
 % Feature extraction and description
 clear

@@ -4,7 +4,7 @@ function [X, y, restIndices] = trainSplitForVocabulary(dataset, totalNumberImgs)
     % Create a random distribution of number of train images per class
     % that sums to the given `totalNumberImgs`.
     n = numel(fieldnames(indices));
-    % TODO: Randomly enerate an array summing to `totalNumberImgs`, with
+    % TODO: Randomly generate an array summing to `totalNumberImgs`, with
     % each cell a minimum value of 1.
 %     distr = diff([1,randperm(totalNumberImgs+n-1,n-1),totalNumberImgs+n])-1;
     distr = [totalNumberImgs/n, totalNumberImgs/n, totalNumberImgs/n, ... 
