@@ -37,14 +37,23 @@ clusterNumber = 400;
 profile report
 
 %% Calculate cluster centroids using VL
-profile clear
-profile on
-clusterNumber = 400;
-[C, ~] = vl_kmeans(resh', clusterNumber);
+% profile clear
+% profile on
+% clusterNumber = 400;
+% [C, ~] = vl_kmeans(resh', clusterNumber);
 
-% Encoding visual features and representing images by frequencies.
-% encodedImgs = encodeFeatures(features, C);
-% size(encodedImgs)
+%% Sanity Check
+test = open('stl10_matlab/test.mat');
+% Get the first image.
+testX = test.X(800, :);
+testX = reshape(testX, 1, 96, 96, 3);
+figure;
+imshow(squeeze(testX));
+size(testX)
+features = extractFeatures(testX, mode);
+encoded = encodeFeatures(features, C);
+figure;
+plot(encoded)
 
 %% Train the SVM Classifiers
 SVMModels = trainSVMs(C, train, restIndices, mode);
@@ -55,21 +64,4 @@ batchSize = 50*5;
 [testImgs, classifications] = classifyBatch(test, SVMModels, batchSize, mode, C);
 
 %% Results
-classifications.airplane
-% classifications.car
-
-% Plot the top 5
-classifications.airplane
-% Sort the `score` array, to get the top 5.
-airplaneScores = table2array(classifications.airplane(:, {'Score'}));
-[~, topI] = maxk(airplaneScores, 5);
-top5 = testImgs(topI, :, :, :);
-size(top5)
-figure;
-for i = 1:5
-    subplot(1, 5, i);
-    img = squeeze(top5(i, :, :, :));
-    size(img)
-    imshow(img);
-end
-% Plot the bottom 5
+plotTop5(classifications.airplane, testImgs);

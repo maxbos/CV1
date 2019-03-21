@@ -38,6 +38,6 @@ function models = trainSVMs(C, dataset, indices, mode)
         % Encode the features as normalized histograms.
         X = encodeFeatures(features, C);
         % Train the SVM model.
-        models.(fields{i}) = fitcsvm(X, y, 'Nu', 0.8);
+        models.(fields{i}) = train(double(y), sparse(double(X)), '-c 1');
     end
 end
