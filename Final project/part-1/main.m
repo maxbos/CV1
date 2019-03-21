@@ -16,7 +16,7 @@ mode = 'densesampling'; % this can take the values 'keypoints' and
 train = open('stl10_matlab/train.mat');
 % Get a part of the train images for training the vocabulary cluster
 % centroids.
-totalNumberImgsVocabulary = 100*5;
+totalNumberImgsVocabulary = 250*5;
 [vocabularyX, vocabularyY, ...
     restIndices] = trainSplitForVocabulary(train, totalNumberImgsVocabulary);
 % Extract their SIFT descriptors from the images for building the
@@ -33,7 +33,7 @@ profile report
 % cluster centers as visual word descriptors.
 profile clear
 profile on
-clusterNumber = 400;
+clusterNumber = 1000;
 [idx, C] = kmeans(resh, clusterNumber);
 
 profile report
@@ -53,9 +53,25 @@ SVMModels = trainSVMs(C, train, restIndices, mode);
 
 %% Classification phase
 test = open('stl10_matlab/test.mat');
-batchSize = 800*5;
-classifications = classifyBatch(test, SVMModels, batchSize, mode, C);
+batchSize = 50*5;
+[testImgs, classifications] = classifyBatch(test, SVMModels, batchSize, mode, C);
 
 %% Results
 classifications.airplane
-classifications.car
+% classifications.car
+
+% Plot the top 5
+classifications.airplane
+% Sort the `score` array, to get the top 5.
+airplaneScores = table2array(classifications.airplane(:, {'Score'}));
+[~, topI] = maxk(airplaneScores, 5);
+top5 = testImgs(topI, :, :, :);
+size(top5)
+figure;
+for i = 1:5
+    subplot(1, 5, i);
+    img = squeeze(top5(i, :, :, :));
+    size(img)
+    imshow(img);
+end
+% Plot the bottom 5
