@@ -4,29 +4,22 @@ function desc = extractFeatures(X, mode)
     % For a subset of size `nImages` of the qualified images,
     % extract the features.
     desc = [];
+    step = 10;
+    binSizes = [4 7 10];
+    
     for i=1:nImages
         image = squeeze(X(i,:,:,:));
 
-        if (strcmp(mode, 'gray'))
-            [fa, da] = vl_phow(single(image), 'Color', mode, 'Sizes', [3]);
-            desc = [desc; da];
-        end
-        
-        if (strcmp(mode, 'rgb'))
-            [fa, da] = vl_phow(single(image), 'Color', mode);
-            desc = [desc; da];
-        end
-        
-        if (strcmp(mode, 'opponent'))
-            [fa, da] = vl_phow(single(image), 'Color', mode);
-            desc = [desc; da];
-        end
-        
-
+        [fa, da] = vl_phow(single(image), 'Color', mode, 'Sizes', binSizes, 'Step', step);
+        desc = [desc; da];
     end
     
     sizeF = size(desc);
-    desc = reshape(desc,[nImages,128,sizeF(2)]);
+    if strcmp(mode, 'gray')
+        desc = reshape(desc,[nImages,128,sizeF(2)]);
+    else 
+        desc = reshape(desc,[nImages,128*3,sizeF(2)]);
+    end
 
 end
 
