@@ -21,11 +21,13 @@ function [testImgs, classifications] = classifyBatch(dataset, models, batchSize,
     % and output score tables in classifications structure
     for i = 1:numel(fields)
         % Get label for current positive class.
-        classLabels = strfind(dataset.class_names, fields{i});
-        classLabel = find(not(cellfun('isempty', classLabels)));
-
-        [label, score] = predict(models.(fields{i}), testX);
+%         classLabels = strfind(dataset.class_names, fields{i});
+%         classLabel = find(not(cellfun('isempty', classLabels)));
+        disp('Predicting for ' + fields{i});
+        [predictedLabel, ~, decisionValues] = ...
+            predict(double(testY), sparse(double(testX)), ...
+            models.(fields{i}));
         classifications.(fields{i}) = table((classLabel == testY), ... 
-            label,score(:,2),'VariableNames', {'TrueLabel', ...
-            'PredictedLabel', 'Score'});
+            predictedLabel, decisionValues, 'VariableNames', {'TrueLabel', ...
+            'PredictedLabel', 'DecisionValues'});
     end
