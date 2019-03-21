@@ -11,12 +11,11 @@ close all
 profile clear
 profile on
 
-mode = 'densesampling'; % this can take the values 'keypoints' and 
-                        % 'densesampling'
+mode = 'gray'; % this can take the values 'gray', 'rgb' and 'opponent'
 train = open('stl10_matlab/train.mat');
 % Get a part of the train images for training the vocabulary cluster
 % centroids.
-totalNumberImgsVocabulary = 250*5;
+totalNumberImgsVocabulary = 10*5;
 [vocabularyX, vocabularyY, ...
     restIndices] = trainSplitForVocabulary(train, totalNumberImgsVocabulary);
 % Extract their SIFT descriptors from the images for building the

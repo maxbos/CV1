@@ -6,17 +6,25 @@ function desc = extractFeatures(X, mode)
     desc = [];
     for i=1:nImages
         image = squeeze(X(i,:,:,:));
-        if mode == 'densesampling'
-            % TODO: Perform smoothing?
-// %             [fa, da] = vl_dsift(single(rgb2gray(image)));
-            [fa, da] = vl_phow(single(image));
-            // binSize = 10;
-            // magnif = 3;
-            // I = single(rgb2gray(image));
-            // Is = vl_imsmooth(I, sqrt((binSize/magnif)^2 - .25));
-            // [fa, da] = vl_dsift(Is, 'size', binSize, 'step', 10);
-            // desc = [desc; da];
+
+        % TODO: Perform smoothing?
+%             [fa, da] = vl_dsift(single(rgb2gray(image)));
+        if (strcmp(mode, 'gray'))
+            [fa, da] = vl_phow(single(image), 'Color', mode);
+            desc = [desc; da];
         end
+        
+        if (strcmp(mode, 'rgb'))
+            [fa, da] = vl_phow(single(image), 'Color', mode);
+            desc = [desc; da];
+        end
+        
+        if (strcmp(mode, 'opponent'))
+            [fa, da] = vl_phow(single(image), 'Color', mode);
+            desc = [desc; da];
+        end
+        
+
     end
     
     sizeF = size(desc);
