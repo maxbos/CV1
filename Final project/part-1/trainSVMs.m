@@ -11,13 +11,15 @@ function models = trainSVMs(C, dataset, indices, mode)
             'Replace', false);
         % Get 200 negative examples, by getting 50 examples from each
         % class that is not the current positive class.
+        lastIndex = 50;
         for j = 1:numel(fields)
             if i == j
                 continue;
             end
             negativeSamples = datasample(indices.(fields{j}), ...
                 nSamplesPerClass, 'Replace', false);
-            samples(51:250) = negativeSamples;
+            samples(lastIndex+1:lastIndex+50) = negativeSamples;
+            lastIndex = lastIndex + 50;
         end
         % Retrieve all positive and negative samples.
         X = dataset.X(samples, :);
@@ -35,6 +37,6 @@ function models = trainSVMs(C, dataset, indices, mode)
         % Encode the features as normalized histograms.
         X = encodeFeatures(features, C);
         % Train the SVM model.
-        models.(fields{i}) = fitcsvm(X, y);
+        models.(fields{i}) = fitcsvm(X, y, 'Nu', 0.8);
     end
 end
