@@ -1,6 +1,5 @@
 % TO DO: Plot histograms of different photos
 % compare cluster sizes of 400, 1000 and 4000
-% Opponent & rgb sift
 % Evaluation plots 
 
 %% Training phase
@@ -15,7 +14,7 @@ mode = 'gray'; % this can take the values 'gray', 'rgb' and 'opponent'
 train = open('stl10_matlab/train.mat');
 % Get a part of the train images for training the vocabulary cluster
 % centroids.
-totalNumberImgsVocabulary = 10*5;
+totalNumberImgsVocabulary = 100*5;
 [vocabularyX, vocabularyY, ...
     restIndices] = trainSplitForVocabulary(train, totalNumberImgsVocabulary);
 % Extract their SIFT descriptors from the images for building the
@@ -32,7 +31,7 @@ profile report
 % cluster centers as visual word descriptors.
 profile clear
 profile on
-clusterNumber = 1000;
+clusterNumber = 400;
 [idx, C] = kmeans(resh, clusterNumber);
 
 profile report

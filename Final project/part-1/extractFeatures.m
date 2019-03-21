@@ -7,10 +7,8 @@ function desc = extractFeatures(X, mode)
     for i=1:nImages
         image = squeeze(X(i,:,:,:));
 
-        % TODO: Perform smoothing?
-%             [fa, da] = vl_dsift(single(rgb2gray(image)));
         if (strcmp(mode, 'gray'))
-            [fa, da] = vl_phow(single(image), 'Color', mode);
+            [fa, da] = vl_phow(single(image), 'Color', mode, 'Sizes', [3]);
             desc = [desc; da];
         end
         
