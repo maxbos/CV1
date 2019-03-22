@@ -25,11 +25,7 @@ newS = sizeF(1)*sizeF(3);
 resh = double(reshape(features, [newS, sizeF(2)]));
 profile report
 
-<<<<<<< HEAD
-%%
-=======
 %% Calculate cluster centroids
->>>>>>> 119f5c5ef5c7477cc18e8dbda58dba765aab0ba0
 % Building visual vocabulary.
 % Perform KMeans to find clusters of feature descriptors, to get the
 % cluster centers as visual word descriptors.
@@ -38,11 +34,9 @@ profile on
 clusterNumber = 400;
 [idx, C] = kmeans(resh, clusterNumber);
 
-<<<<<<< HEAD
 %% Encoding visual features and representing images by frequencies.
 encodedImgs = encodeFeatures(features, C);
 size(encodedImgs)
-=======
 profile report
 
 %% Calculate cluster centroids using VL
@@ -63,7 +57,6 @@ features = extractFeatures(testX, mode);
 encoded = encodeFeatures(features, C);
 figure;
 plot(encoded)
->>>>>>> 119f5c5ef5c7477cc18e8dbda58dba765aab0ba0
 
 %% Train the SVM Classifiers
 SVMModels = trainSVMs(C, train, restIndices, mode);
