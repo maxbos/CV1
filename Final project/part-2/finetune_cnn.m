@@ -2,7 +2,7 @@ function [net, info, expdir] = finetune_cnn(varargin)
 
 %% Define options
 run(fullfile(fileparts(mfilename('fullpath')), ...
-  '..', '..', '..', 'matlab', 'vl_setupnn.m')) ;
+  '..', '..', '..', 'matconvnet-1.0-beta23', 'matlab', 'vl_setupnn.m')) ;
 
 opts.modelType = 'lenet' ;
 [opts, varargin] = vl_argparse(opts, varargin) ;
@@ -20,15 +20,13 @@ opts.train = struct() ;
 opts = vl_argparse(opts, varargin) ;
 if ~isfield(opts.train, 'gpus'), opts.train.gpus = []; end;
 
-opts.train.gpus = [0];
+opts.train.gpus = [];
 
 
 
 %% update model
 
 net = update_model();
-
-%% TODO: Implement getIMDB function below
 
 if exist(opts.imdbPath, 'file')
   imdb = load(opts.imdbPath) ;
@@ -85,32 +83,25 @@ splits = {'train', 'test'};
 data=[];
 labels=[];
 sets=[];
-noSplits=size(splits)
-for no = 1:noSplits(1)
-    spl=char(splits(no));
-    dataFirst= open(strcat('data/',spl,'.mat'));
-    length=size(dataFirst.X);
-    length=length(1);
-    X=dataFirst.X;
-    X=reshape(X,length,96,96,3);
-    resImages=[]
+for no = 1:size(splits,2)
+    split=char(splits(no));
+    dataFirst= open(strcat('data/',split,'.mat'));
+    length=size(dataFirst.X, 1);
+    X=reshape(dataFirst.X,length,96,96,3);
+    resImages=[];
     i=0;
     for noIm = 1:length
-        
         imag=X(noIm,:,:,:);
-        size(squeeze(imag));
         i=i+1
         newIm=imresize(squeeze(imag),[32 32]);
         newIm=reshape(newIm,1,32,32,3);
         resImages=[resImages;newIm];
     end
-    size(X);
     Y=dataFirst.y;
     data=[data;resImages];
-    size(data)
     labels=[labels;Y];
     
-    if strcmp(spl,'train')
+    if strcmp(split,'train')
         arr=ones(length,1);
     else
         arr=ones(length,1)*2;
@@ -121,13 +112,6 @@ for no = 1:noSplits(1)
 end
 length=size(data);
 data=reshape(data,32,32,3,length(1));
-
-
-%% TODO: Implement your loop here, to create the data structure described in the assignment
-
-
-%% Use train.mat and test.mat we provided from STL-10 to fill in necessary data members for training below
-%% You will need to, in a loop function,  1) read the image, 2) resize the image to (32,32,3), 3) read the label of that image
 
 %%
 % subtract mean

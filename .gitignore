@@ -20,4 +20,9 @@ Final project/part-1/stl10_matlab/unlabeled.mat
 Final project/part-1/stl10_matlab/test.mat
 Final project/part-1/stl10_matlab/train.mat
 Final project/part-1/resh_100X5.mat
+Final project/part-2/data/train.mat
+Final project/part-2/data/test.mat
+Final project/part-2/data/unlabeled.mat
+Final project/part-2/data/cnn_assignment-lenet/imdb-stl.mat
 *.m~
+*.asv
