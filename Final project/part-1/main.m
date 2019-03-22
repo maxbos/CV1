@@ -25,15 +25,16 @@ newS = sizeF(1)*sizeF(3);
 resh = reshape(features, [newS, sizeF(2)]);
 size(resh)
 
+%%
 % Building visual vocabulary.
 % Perform KMeans to find clusters of feature descriptors, to get the
 % cluster centers as visual word descriptors.
 clusterNumber = 400;
 [idx, C] = kmeans(double(resh), clusterNumber);
 
-% Encoding visual features and representing images by frequencies.
-% encodedImgs = encodeFeatures(features, C);
-% size(encodedImgs)
+%% Encoding visual features and representing images by frequencies.
+encodedImgs = encodeFeatures(features, C);
+size(encodedImgs)
 
 %% Train the SVM Classifiers
 SVMModels = trainSVMs(C, train, restIndices, mode);

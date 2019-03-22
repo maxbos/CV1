@@ -1,5 +1,5 @@
 function net = update_model(varargin)
-opts.networkType = 'simplenn' ;
+opts.networkType = 'simplenn' 
 opts = vl_argparse(opts, varargin) ;
 
 
