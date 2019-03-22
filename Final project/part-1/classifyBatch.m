@@ -1,31 +1,33 @@
-function [classifications] = classifyBatch(dataset, models, batchSize, mode, C)
+function [testImgs, classifications] = classifyBatch(dataset, models, batchSize, mode, C)
 % Classify a specified number of images (batchSize) from the dataset with
 % supplied models and visual words (C) and visual word sampling method (mode) 
-classifications = struct;
+    classifications = struct;
 
-% Get data in compatible format
-[testX, testY, ~ ] = trainSplitForVocabulary(dataset, batchSize);
-
-% Get features
-testFeatures = extractFeatures(testX, mode);
-
-% Translate features to nearest available visual word
-testX = encodeFeatures(testFeatures, C);
-
-fields = fieldnames(models);
-
-%  TO DO: softcode
-classLabels = [1, 2, 9, 7, 3];
-
-% Iterate through binary SVM models classifying batch
-% and output score tables in classifications structure
-for i = 1:numel(fields)
-    % Get label for current positive class.
-    classLabels = strfind(dataset.class_names, fields{i});
-    classLabel = find(not(cellfun('isempty', classLabels)));
+    % Get data in compatible format
+    [testImgs, testY, ~ ] = trainSplitForVocabulary(dataset, batchSize);
     
-    [label, score] = predict(models.(fields{i}), testX);
-    classifications.(fields{i}) = table((classLabel == testY), ... 
-        label,score(:,2),'VariableNames', {'TrueLabel', ...
-        'PredictedLabel', 'Score'});
-end
+    % Get features
+    testFeatures = extractFeatures(testImgs, mode);
+
+    % Translate features to nearest available visual word
+    testX = encodeFeatures(testFeatures, C);
+
+    fields = fieldnames(models);
+
+    %  TO DO: softcode
+    classLabels = [1, 2, 9, 7, 3];
+
+    % Iterate through binary SVM models classifying batch
+    % and output score tables in classifications structure
+    for i = 1:numel(fields)
+        % Get label for current positive class.
+%         classLabels = strfind(dataset.class_names, fields{i});
+%         classLabel = find(not(cellfun('isempty', classLabels)));
+        disp('Predicting for ' + fields{i});
+        [predictedLabel, ~, decisionValues] = ...
+            predict(double(testY), sparse(double(testX)), ...
+            models.(fields{i}));
+        classifications.(fields{i}) = table((classLabel == testY), ... 
+            predictedLabel, decisionValues, 'VariableNames', {'TrueLabel', ...
+            'PredictedLabel', 'DecisionValues'});
+    end

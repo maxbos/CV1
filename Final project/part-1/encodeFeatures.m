@@ -1,8 +1,10 @@
-function [encoding] = encodeFeatures(features,C)
+function [encoding] = encodeFeatures(features, C)
 %encodeFeatures
     sizeFeat = size(features);
+    featuresHeight = size(features, 1);
+    nClusters = size(C, 1);
     sizeC = size(C);
-    encoding = zeros(sizeFeat(1), size(C(:,1)));
+    encoding = zeros(featuresHeight, nClusters);
     for image=1:sizeFeat(1)
         imEnc = ones(size(C(:,1)));
         for feature = 1:sizeFeat(3)
