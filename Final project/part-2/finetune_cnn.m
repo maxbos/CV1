@@ -1,8 +1,7 @@
 function [net, info, expdir] = finetune_cnn(varargin)
 
 %% Define options
-run(fullfile(fileparts(mfilename('fullpath')), ...
-  '..', '..', '..', 'matconvnet-1.0-beta23', 'matlab', 'vl_setupnn.m')) ;
+run(fullfile(fileparts(mfilename('C:\Users\larsr\Documents\my documents\Universiteit\Master\CV1\CV 1 git\CV1\Final project\part-2\matconvnet-1.0-beta25\matlab\vl_setupnn.m')))) ;
 
 opts.modelType = 'lenet' ;
 [opts, varargin] = vl_argparse(opts, varargin) ;
@@ -67,8 +66,8 @@ end
 
 function [images, labels] = getSimpleNNBatch(imdb, batch)
 % -------------------------------------------------------------------------
-images = imdb.images.data(:,:,:,batch) ;
-labels = imdb.images.labels(1,batch) ;
+images = single(imdb.images.data(:,:,:,batch)) ;
+labels = single(imdb.images.labels(1,batch)) ;
 if rand > 0.5, images=fliplr(images) ; end
 
 end
