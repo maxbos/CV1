@@ -18,7 +18,7 @@ for i = 1:numel(fields)
     sum = 0.0;
     precision = 0.0;
     for j = 1:length(scores)
-        if (scores(j,1,i) ==  1)
+        if (scores(j,1,i) == 1)
             sum = sum + 1;
             precision = precision + (sum / double(j));
         end

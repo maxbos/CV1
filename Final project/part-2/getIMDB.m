@@ -4,22 +4,22 @@ function imdb = getIMDB()
 % -------------------------------------------------------------------------
 % Preapre the imdb structure, returns image data with mean image subtracted
 classes = {'airplanes', 'birds', 'ships', 'horses', 'cars'};
-splits = {'train', 'test'};
+splits = {'test','train'};
 data=[];
 labels=[];
 sets=[];
-noSplits=size(splits)
-for no = 1:noSplits(1)
+noSplits=size(splits);
+for no = 1:noSplits(2)
     spl=char(splits(no));
     dataFirst= open(strcat('data/',spl,'.mat'));
     length=size(dataFirst.X);
     length=length(1);
     X=dataFirst.X;
     X=reshape(X,length,96,96,3);
-    resImages=[]
+    resImages=[];
     i=0;
     for noIm = 1:length
-        
+        %disp("yess")
         imag=X(noIm,:,:,:);
         size(squeeze(imag));
         i=i+1
@@ -44,8 +44,8 @@ for no = 1:noSplits(1)
 end
 length=size(data);
 data=reshape(data,32,32,3,length(1));
-
-
+labels=labels.';
+sets=sets.';
 %% TODO: Implement your loop here, to create the data structure described in the assignment
 
 
@@ -57,9 +57,9 @@ data=reshape(data,32,32,3,length(1));
 dataMean = mean(data(:, :, :, sets == 1), 4);
 data = bsxfun(@minus, double(data), double(dataMean));
 
-imdb.images.data = data ;
+imdb.images.data = single(data) ;
 imdb.images.labels = single(labels) ;
-imdb.images.set = sets;
+imdb.images.set = single(sets);
 imdb.meta.sets = {'train', 'val'} ;
 imdb.meta.classes = classes;
 
