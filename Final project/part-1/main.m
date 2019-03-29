@@ -10,7 +10,7 @@ close all
 mode = 'rgb'; % this can take the values 'gray', 'rgb' and 'opponent'
 train = open('stl10_matlab/train.mat');
 % Get a part of the train images for training the vocabulary cluster centroids.
-totalNumberImgsVocabulary = 2000;
+totalNumberImgsVocabulary = 100;
 [vocabularyX, vocabularyY, restIndices] = trainSplitForVocabulary(train, totalNumberImgsVocabulary);
 % Extract their SIFT descriptors from the images for building the visual vocabulary.
 features = extractFeatures(vocabularyX, mode);
@@ -55,12 +55,12 @@ SVModels = trainSVMs(C, train, restIndices, mode);
 
 %% Classification phase
 test = open('stl10_matlab/test.mat');
-batchSize =        50*5;
-[testImgs, classifications] = classifyBatch(test, SVModels, batchSize, mode, C);
+batchSize =        800;
+[testImgs, classifications, positiveCount] = classifyBatch(test, SVModels, batchSize, mode, C);
 
 %% Results
 plotTop5(classifications.car, testImgs);
 
 %% Mean Average Precision
-calcMAP(classifications)
+calcMAP(classifications, positiveCount)
 
