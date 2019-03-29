@@ -48,11 +48,12 @@ SVModels = trainSVMs(C, train, restIndices, mode);
 
 %% Classification phase
 test = open('stl10_matlab/test.mat');
-batchSize =        50*5;
-[testImgs, classifications] = classifyBatch(test, SVModels, batchSize, mode, C);
+batchSize =        800;
+[testImgs, classifications, positiveCount] = classifyBatch(test, SVModels, batchSize, mode, C);
 
 %% Results
 plotTop5(classifications.car, testImgs);
 
 %% Mean Average Precision
-calcMAP(classifications)
+calcMAP(classifications, positiveCount)
+

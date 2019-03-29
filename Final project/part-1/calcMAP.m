@@ -1,6 +1,5 @@
-function mAP = calcMAP(classifications)
+function mAP = calcMAP(classifications, positiveCount)
 
-positives = 50;
 fields = fieldnames(classifications);
 scores = [];
 mAP = struct;
@@ -26,5 +25,5 @@ for i = 1:numel(fields)
         end
 
     end
-    mAP.(fields{i}) = precision / positives;
+    mAP.(fields{i}) = precision / positiveCount(i);
 end

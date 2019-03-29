@@ -37,7 +37,6 @@ function models = trainSVMs(C, dataset, indices, mode)
         % Encode the features as normalized histograms.
         X = encodeFeatures(features, C);
         % Train the SVM model. 
-        
         % Solver type 3 (L2-regularized L1-loss support vector classification (dual))
         % and type 5 (L1-regularized L2-loss support vector classification)
         % Seem to yield the best resultsin in smaller cluster numbers (400)
