@@ -48,7 +48,7 @@ SVModels = trainSVMs(C, train, restIndices, mode);
 
 %% Classification phase
 test = open('stl10_matlab/test.mat');
-batchSize =        800*5;
+batchSize = 800*5;
 [testImgs, classifications, positiveCount] = classifyBatch(test, SVModels, batchSize, mode, C);
 
 %% Results
