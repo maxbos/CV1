@@ -7,12 +7,13 @@
 clear
 close all
 
-mode = 'rgb'; % this can take the values 'gray', 'rgb' and 'opponent'
+mode = ['rgb', 'dense' ]; % this can take the values 'gray', 'rgb' or 
+                          % 'opponent' and 'dense' or 'keypoints'
 train = open('stl10_matlab/train.mat');
 % Get a part of the train images for training the vocabulary cluster centroids.
 % Can have a maximum value of 1250, which is half of the total trainingset
 % size.
-totalNumberImgsVocabulary = 100;
+totalNumberImgsVocabulary = 1250;
 [vocabularyX, vocabularyY, restIndices] = trainSplitForVocabulary(train, totalNumberImgsVocabulary);
 % Extract their SIFT descriptors from the images for building the visual vocabulary.
 features = extractFeatures(vocabularyX, mode);

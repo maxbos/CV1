@@ -7,7 +7,7 @@ function descr = extractFeatures(X, mode)
     
     % Extract the features for the first image.
     firstImage = squeeze(X(1,:,:,:));
-    [~, da] = vl_phow(single(firstImage), 'Color', mode, 'Sizes', binSizes, 'Step', step);
+    [~, da] = vl_phow(single(firstImage), 'Color', mode(1), 'Sizes', binSizes, 'Step', step);
     
     % Pre-allocate the features tensor.
     descr = zeros(nImages, size(da, 1), size(da, 2));
@@ -15,7 +15,7 @@ function descr = extractFeatures(X, mode)
     
     for i=2:nImages
         image = squeeze(X(i,:,:,:));
-        [~, da] = vl_phow(single(image), 'Color', mode, 'Sizes', binSizes, 'Step', step);
+        [~, da] = vl_phow(single(image), 'Color', mode(1), 'Sizes', binSizes, 'Step', step);
         descr(i, :, :) = da;
     end
 end
