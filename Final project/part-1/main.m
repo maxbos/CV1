@@ -46,14 +46,14 @@ plot(encoded)
 %% Train the SVM Classifiers
 SVModels = trainSVMs(C, train, restIndices, mode);
 
-%% Classification phase
+% Classification phase
 test = open('stl10_matlab/test.mat');
 batchSize =        800*5;
 [testImgs, classifications, positiveCount] = classifyBatch(test, SVModels, batchSize, mode, C);
 
-%% Results
+% Results
 plotTop5(classifications.car, testImgs);
 
-%% Mean Average Precision
+% Mean Average Precision
 calcMAP(classifications, positiveCount)
 

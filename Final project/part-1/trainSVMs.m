@@ -41,6 +41,6 @@ function models = trainSVMs(C, dataset, indices, mode)
         % and type 5 (L1-regularized L2-loss support vector classification)
         % Seem to yield the best resultsin in smaller cluster numbers (400)
         
-        models.(fields{i}) = train(double(y), sparse(double(X)), '-c 1 -w1 4 -w-1 1 -s 3');
+        models.(fields{i}) = train(double(y), sparse(double(X)), '-c 1 -s 3');
     end
 end
