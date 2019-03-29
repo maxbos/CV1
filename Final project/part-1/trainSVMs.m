@@ -5,7 +5,6 @@ function models = trainSVMs(C, dataset, indices, mode)
     fields = fieldnames(indices);
     % Create an SVM Classifier for each class.
     for i = 1:numel(fields)
-        i
         samples = zeros(250, 1);
         % Get 50 positive examples.
         samples(1:50) = datasample(indices.(fields{i}), nSamplesPerClass, ...
