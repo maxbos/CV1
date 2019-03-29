@@ -5,7 +5,7 @@ function models = trainSVMs(C, dataset, indices, mode)
     fields = fieldnames(indices);
     % Create an SVM Classifier for each class.
     for i = 1:numel(fields)
-        i = i
+        i
         samples = zeros(250, 1);
         % Get 50 positive examples.
         samples(1:50) = datasample(indices.(fields{i}), nSamplesPerClass, ...
@@ -37,7 +37,12 @@ function models = trainSVMs(C, dataset, indices, mode)
         features = extractFeatures(X, mode);
         % Encode the features as normalized histograms.
         X = encodeFeatures(features, C);
-        % Train the SVM model.
-        models.(fields{i}) = train(double(y), sparse(double(X)), '-c 1');
+        % Train the SVM model. 
+        
+        % Solver type 3 (L2-regularized L1-loss support vector classification (dual))
+        % and type 5 (L1-regularized L2-loss support vector classification)
+        % Seem to yield the best resultsin in smaller cluster numbers (400)
+        
+        models.(fields{i}) = train(double(y), sparse(double(X)), '-c 1 -w1 4 -w-1 1 -s 3');
     end
 end
