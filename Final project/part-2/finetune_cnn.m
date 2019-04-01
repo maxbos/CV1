@@ -77,17 +77,22 @@ end
 
 function imdb = getIMDB()
 % -------------------------------------------------------------------------
-% Preapre the imdb structure, returns image data with mean image subtracted
+% Prepare the imdb structure, returns image data with mean image subtracted
 classes = {'airplanes', 'birds', 'ships', 'horses', 'cars'};
+classLabels = [1,          2,      9,      7,       3];
 splits = {'train', 'test'};
 data=[];
 labels=[];
 sets=[];
 for no = 1:size(splits,2)
     split=char(splits(no));
-    dataFirst= open(strcat('data/',split,'.mat'));
-    length=size(dataFirst.X, 1);
-    X=reshape(dataFirst.X,length,96,96,3);
+    dataset= open(strcat('data/',split,'.mat'));
+
+    [~, idx] = ismember(dataset.y, classLabels);
+    dataset.X = dataset.X(find(idx), :);
+    dataset.y = dataset.y(find(idx), :);
+    length=size(dataset.X, 1);
+    X=reshape(dataset.X,length,96,96,3);
     resImages=[];
     i=0;
     for noIm = 1:length
@@ -97,7 +102,9 @@ for no = 1:size(splits,2)
         newIm=reshape(newIm,1,32,32,3);
         resImages=[resImages;newIm];
     end
-    Y=dataFirst.y;
+    Y=dataset.y;
+    Y(Y == 7) = 4;
+    Y(Y == 9) = 5;
     data=[data;resImages];
     labels=[labels;Y];
     
