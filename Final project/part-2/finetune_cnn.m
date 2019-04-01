@@ -1,7 +1,8 @@
 function [net, info, expdir] = finetune_cnn(varargin)
 
 %% Define options
-run(fullfile(fileparts(mfilename('C:\Users\larsr\Documents\my documents\Universiteit\Master\CV1\CV 1 git\CV1\Final project\part-2\matconvnet-1.0-beta25\matlab\vl_setupnn.m')))) ;
+run(fullfile(fileparts(mfilename('fullpath')), ...
+     '..', '..', '..', 'matconvnet-1.0-beta23', 'matlab', 'vl_setupnn.m'));
 
 opts.modelType = 'lenet' ;
 [opts, varargin] = vl_argparse(opts, varargin) ;
@@ -111,7 +112,8 @@ for no = 1:size(splits,2)
 end
 length=size(data);
 data=reshape(data,32,32,3,length(1));
-
+labels=labels.';
+sets=sets.';
 %%
 % subtract mean
 dataMean = mean(data(:, :, :, sets == 1), 4);
