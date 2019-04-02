@@ -5,8 +5,8 @@ opts = vl_argparse(opts, varargin) ;
 
 %% TODO: PLAY WITH THESE PARAMETERTS TO GET A BETTER ACCURACY
 
-lr_prev_layers = [.2, 2];
-lr_new_layers  = [1, 4]; 
+lr_prev_layers = [.01, 2];
+lr_new_layers  = [.01, 4]; 
 
 lr = lr_prev_layers ;
 
@@ -17,7 +17,7 @@ net.meta.trainOpts.learningRate = [ 0.05*ones(1,20) ...
                                     0.0005*ones(1,10)...
                                     ] ;
 net.meta.trainOpts.weightDecay = 0.0001 ;
-net.meta.trainOpts.batchSize = 100 ;
+net.meta.trainOpts.batchSize = 100;
 net.meta.trainOpts.numEpochs = numel(net.meta.trainOpts.learningRate) ;
 
 %% Define network 
@@ -73,7 +73,7 @@ net.layers{end+1} = struct('type', 'relu') ;
 %% TODO: Define the structure here, so that the network outputs 5-class rather than 10 (as in the pretrained network)
 % Block 5
 
-NEW_INPUT_SIZE  = 10;
+NEW_INPUT_SIZE  = 64;
 NEW_OUTPUT_SIZE = 5;
 
 net.layers{end+1} = struct('type', 'conv', ...

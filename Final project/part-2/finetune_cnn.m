@@ -2,7 +2,7 @@ function [net, info, expdir] = finetune_cnn(varargin)
 
 %% Define options
 run(fullfile(fileparts(mfilename('fullpath')), ...
-  '..', '..', '..', 'matconvnet-1.0-beta23', 'matlab', 'vl_setupnn.m')) ;
+     '..', '..', '..', 'matconvnet-1.0-beta23', 'matlab', 'vl_setupnn.m'));
 
 opts.modelType = 'lenet' ;
 [opts, varargin] = vl_argparse(opts, varargin) ;
@@ -67,8 +67,8 @@ end
 
 function [images, labels] = getSimpleNNBatch(imdb, batch)
 % -------------------------------------------------------------------------
-images = imdb.images.data(:,:,:,batch) ;
-labels = imdb.images.labels(1,batch) ;
+images = single(imdb.images.data(:,:,:,batch)) ;
+labels = single(imdb.images.labels(1,batch)) ;
 if rand > 0.5, images=fliplr(images) ; end
 
 end
@@ -77,28 +77,33 @@ end
 
 function imdb = getIMDB()
 % -------------------------------------------------------------------------
-% Preapre the imdb structure, returns image data with mean image subtracted
+% Prepare the imdb structure, returns image data with mean image subtracted
 classes = {'airplanes', 'birds', 'ships', 'horses', 'cars'};
+classLabels = [1,          2,      9,      7,       3];
 splits = {'train', 'test'};
 data=[];
 labels=[];
 sets=[];
 for no = 1:size(splits,2)
     split=char(splits(no));
-    dataFirst= open(strcat('data/',split,'.mat'));
-    length=size(dataFirst.X, 1);
-    X=reshape(dataFirst.X,length,96,96,3);
+    dataset= open(strcat('data/',split,'.mat'));
+    [~, idx] = ismember(dataset.y, classLabels);
+    dataset.X = dataset.X(find(idx), :);
+    dataset.y = dataset.y(find(idx), :);
+    length=size(dataset.X, 1);
+    X=reshape(dataset.X,length,96,96,3);
     resImages=[];
     i=0;
     for noIm = 1:length
         imag=X(noIm,:,:,:);
         i=i+1
         newIm=imresize(squeeze(imag),[32 32]);
-        newIm=reshape(newIm,1,32,32,3);
-        resImages=[resImages;newIm];
+        resImages=cat(4,resImages,newIm);
     end
-    Y=dataFirst.y;
-    data=[data;resImages];
+    Y=dataset.y;
+    Y(Y == 7) = 4;
+    Y(Y == 9) = 5;
+    data=cat(4,data,resImages);
     labels=[labels;Y];
     
     if strcmp(split,'train')
@@ -111,8 +116,8 @@ for no = 1:size(splits,2)
     
 end
 length=size(data);
-data=reshape(data,32,32,3,length(1));
-
+labels=labels.';
+sets=sets.';
 %%
 % subtract mean
 dataMean = mean(data(:, :, :, sets == 1), 4);
