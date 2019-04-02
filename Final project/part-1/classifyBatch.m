@@ -28,7 +28,7 @@ function [testImgs, classifications, positiveCount] = classifyBatch(dataset, mod
         classifications.(fields{i}) = table((classLabel == testY), ... 
             predictedLabel, decisionValues, 'VariableNames', {'TrueLabel', ...
             'PredictedLabel', 'DecisionValues'});
-        positiveCount = [positiveCount sum(classLabel == testY)]
+        positiveCount = [positiveCount sum(classLabel == testY)];
     end
     
 end

@@ -33,7 +33,7 @@ clusterNumber = 1000;
 %% Sanity Check
 test = open('stl10_matlab/test.mat');
 % Get the first image.
-testX = test.X(800, :);
+testX = test.X(8, :);
 testX = reshape(testX, 1, 96, 96, 3);
 figure;
 imshow(squeeze(testX));
@@ -56,4 +56,5 @@ batchSize = 800*5;
 plotTop5(classifications.ship, testImgs);
 
 % Mean Average Precision
-calcMAP(classifications, positiveCount);
+calcMAP(classifications, positiveCount)
+
