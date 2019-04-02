@@ -1,4 +1,4 @@
-function train_svm(nets, data)
+function [featuresPre,featuresFin,labels]= train_svm(nets, data)
 
 %% replace loss with the classification as we will extract features
 nets.pre_trained.layers{end}.type = 'softmax';
@@ -10,8 +10,8 @@ nets.fine_tuned.layers{end}.type = 'softmax';
 
 %% measure the accuracy of different settings
 [nn.accuracy] = get_nn_accuracy(nets.fine_tuned, data);
-[svm.pre_trained.predictions, svm.pre_trained.accuracy] = get_predictions(svm.pre_trained);
-[svm.fine_tuned.predictions, svm.fine_tuned.accuracy] = get_predictions(svm.fine_tuned);
+[svm.pre_trained.predictions, svm.pre_trained.accuracy,featuresPre,labels] = get_predictions(svm.pre_trained);
+[svm.fine_tuned.predictions, svm.fine_tuned.accuracy,featuresFin,labels] = get_predictions(svm.fine_tuned);
 
 fprintf('\n\n\n\n\n\n\n\n');
 
@@ -26,7 +26,7 @@ counter = 0;
 for i = 1:size(data.images.data, 4)
     
 if(data.images.set(i)==2)    
-res = vl_simplenn(net, data.images.data(:, :,:, i));
+res = vl_simplenn(net, single(data.images.data(:, :,:, i)));
 
 [~, estimclass] = max(res(end).x);
 
@@ -41,12 +41,13 @@ end
 accuracy = counter / nnz(data.images.set==2);
 end
 
-function [predictions, accuracy] = get_predictions(data)
+function [predictions, accuracy,feature,label] = get_predictions(data)
 
 best = train(data.trainset.labels, data.trainset.features, '-C -s 0');
 model = train(data.trainset.labels, data.trainset.features, sprintf('-c %f -s 0', best(1))); % use the same solver: -s 0
 [predictions, accuracy, ~] = predict(data.testset.labels, data.testset.features, model);
-
+feature=data.trainset.features;
+label=data.trainset.labels;
 
 end
 
@@ -59,7 +60,7 @@ testset.labels = [];
 testset.features = [];
 for i = 1:size(data.images.data, 4)
     
-    res = vl_simplenn(net, data.images.data(:, :,:, i));
+    res = vl_simplenn(net, single(data.images.data(:, :,:, i)));
     feat = res(end-3).x; feat = squeeze(feat);
     
     if(data.images.set(i) == 1)
