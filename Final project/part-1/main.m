@@ -13,7 +13,7 @@ train = open('stl10_matlab/train.mat');
 % Get a part of the train images for training the vocabulary cluster centroids.
 % Can have a maximum value of 1250, which is half of the total trainingset
 % size.
-totalNumberImgsVocabulary = 10;
+totalNumberImgsVocabulary = 1000;
 [vocabularyX, vocabularyY, restIndices] = trainSplitForVocabulary(train, totalNumberImgsVocabulary);
 % Extract their SIFT descriptors from the images for building the visual vocabulary.
 features = extractFeatures(vocabularyX, mode);
@@ -27,7 +27,7 @@ descriptors = double(reshape(permute(features, [3 1 2]), [nDescriptors, nFeature
 % Building visual vocabulary.
 % Perform KMeans to find clusters of feature descriptors, to get the
 % cluster centers as visual word descriptors.
-clusterNumber = 4;
+clusterNumber = 1000;
 [idx, C] = kmeans(descriptors, clusterNumber);
 
 %% Sanity Check
