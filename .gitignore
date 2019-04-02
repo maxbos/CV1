@@ -24,7 +24,7 @@ Final project/part-1/resh_100X5.mat
 Final project/part-2/data/train.mat
 Final project/part-2/data/test.mat
 Final project/part-2/data/unlabeled.mat
-Final project/part-2/data/cnn_assignment-lenet/imdb-stl.mat
+Final project/part-2/data/cnn_assignment-lenet/*
 *.m~
 *.asv
 *.icloud

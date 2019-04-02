@@ -87,7 +87,6 @@ sets=[];
 for no = 1:size(splits,2)
     split=char(splits(no));
     dataset= open(strcat('data/',split,'.mat'));
-
     [~, idx] = ismember(dataset.y, classLabels);
     dataset.X = dataset.X(find(idx), :);
     dataset.y = dataset.y(find(idx), :);
@@ -99,13 +98,12 @@ for no = 1:size(splits,2)
         imag=X(noIm,:,:,:);
         i=i+1
         newIm=imresize(squeeze(imag),[32 32]);
-        newIm=reshape(newIm,1,32,32,3);
-        resImages=[resImages;newIm];
+        resImages=cat(4,resImages,newIm);
     end
     Y=dataset.y;
     Y(Y == 7) = 4;
     Y(Y == 9) = 5;
-    data=[data;resImages];
+    data=cat(4,data,resImages);
     labels=[labels;Y];
     
     if strcmp(split,'train')
@@ -118,7 +116,6 @@ for no = 1:size(splits,2)
     
 end
 length=size(data);
-data=reshape(data,32,32,3,length(1));
 labels=labels.';
 sets=sets.';
 %%
