@@ -55,6 +55,5 @@ batchSize = 800*5;
 %% Results
 plotTop5(classifications.ship, testImgs);
 
-%% Mean Average Precision
-calcMAP(classifications, positiveCount)
-
+% Mean Average Precision
+calcMAP(classifications, positiveCount);
