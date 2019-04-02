@@ -56,5 +56,4 @@ batchSize = 800*5;
 plotTop5(classifications.car, testImgs);
 
 % Mean Average Precision
-calcMAP(classifications, positiveCount)
-
+calcMAP(classifications, positiveCount);
