@@ -28,7 +28,7 @@ function [classifications, map] = demo(...
     % Building visual vocabulary.
     % Perform KMeans to find clusters of feature descriptors, to get the
     % cluster centers as visual word descriptors.
-    [~, C] = kmeans(descriptors, clusterNumber);
+    [~, C] = kmeans(descriptors, clusterNumber, 'MaxIter', 300);
 
     %% Sanity Check
 %     test = open('stl10_matlab/test.mat');
@@ -52,7 +52,8 @@ function [classifications, map] = demo(...
     [testImgs, classifications, positiveCount] = classifyBatch(test, SVModels, batchSize, mode, C);
 
     %% Results
-    plotTop5(classifications.ship, testImgs);
+    folderName = "topbottom_" + mode(1) + "-" + mode(2) + "_" + clusterNumber;
+    saveTopBottomResults(classifications, testImgs, folderName);
 
     % Mean Average Precision
     calcMAP(classifications, positiveCount)
