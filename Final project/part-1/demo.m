@@ -52,7 +52,8 @@ function [classifications, map] = demo(...
     [testImgs, classifications, positiveCount] = classifyBatch(test, SVModels, batchSize, mode, C);
 
     %% Results
-    plotTop5(classifications.ship, testImgs);
+    folderName = "topbottom_" + mode(1) + "-" + mode(2) + "_" + clusterNumber;
+    saveTopBottomResults(classifications, testImgs, folderName);
 
     % Mean Average Precision
     calcMAP(classifications, positiveCount)
