@@ -34,13 +34,22 @@ function models = trainSVMs(C, dataset, indices, mode)
         y = ismember(y, classLabel);
         % Extract the features from the images.
         features = extractFeatures(X, mode);
-        % Encode the features as normalized histograms.
-        X = encodeFeatures(features, C);
+         % remove full zero features and encoding afterwards
+        szft = size(features);
+        szC = size(C);
+        encodedList = zeros(szft(1),szC(1));
+        for j=1:szft(1)    
+            ftcut = (features(j,:,:));
+            ftcut = ftcut(:,:,any(ftcut,2));
+            encoded = encodeFeatures(ftcut, C);
+            encodedList(j,:) = encoded;
+        end
+
         % Train the SVM model. 
         % Solver type 3 (L2-regularized L1-loss support vector classification (dual))
         % and type 5 (L1-regularized L2-loss support vector classification)
         % Seem to yield the best resultsin in smaller cluster numbers (400)
         
-        models.(fields{i}) = train(double(y), sparse(double(X)), '-c 1 -s 3');
+        models.(fields{i}) = train(double(y), sparse(double(encodedList)), '-c 1 -s 3');
     end
 end
