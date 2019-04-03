@@ -28,7 +28,7 @@ function [classifications, map] = demo(...
     % Building visual vocabulary.
     % Perform KMeans to find clusters of feature descriptors, to get the
     % cluster centers as visual word descriptors.
-    [~, C] = kmeans(descriptors, clusterNumber);
+    [~, C] = kmeans(descriptors, clusterNumber, 'MaxIter', 300);
 
     %% Sanity Check
 %     test = open('stl10_matlab/test.mat');
