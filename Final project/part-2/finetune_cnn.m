@@ -70,6 +70,12 @@ function [images, labels] = getSimpleNNBatch(imdb, batch)
 images = single(imdb.images.data(:,:,:,batch)) ;
 labels = single(imdb.images.labels(1,batch)) ;
 if rand > 0.5, images=fliplr(images) ; end
+if rand > 0.5, images=flipud(images); end
+% if rand > 0.5, images=rot90(images); end
+% if rand > 0.5
+%     images = imresize(images, 2);
+%     images = images(17:48, 17:48, :, :);
+% end
 
 end
 
