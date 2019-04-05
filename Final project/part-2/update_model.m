@@ -5,8 +5,8 @@ opts = vl_argparse(opts, varargin) ;
 
 %% TODO: PLAY WITH THESE PARAMETERTS TO GET A BETTER ACCURACY
 
-lr_prev_layers = [.01, 2];
-lr_new_layers  = [.01, 4]; 
+lr_prev_layers = [0.03, 2];
+lr_new_layers  = [0.03, 4]; 
 
 lr = lr_prev_layers ;
 
@@ -16,9 +16,9 @@ net.meta.trainOpts.learningRate = [ 0.05*ones(1,20) ...
                                     0.005*ones(1,20)...
                                     0.0005*ones(1,10)...
                                     ] ;
-net.meta.trainOpts.weightDecay = 0.0001 ;
-net.meta.trainOpts.batchSize = 100;
-net.meta.trainOpts.numEpochs = numel(net.meta.trainOpts.learningRate) ;
+net.meta.trainOpts.weightDecay = 0.01;
+net.meta.trainOpts.batchSize = 50;
+net.meta.trainOpts.numEpochs = 120;%numel(net.meta.trainOpts.learningRate) ;
 
 %% Define network 
 net.layers = {} ;
