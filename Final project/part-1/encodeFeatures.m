@@ -9,7 +9,6 @@ function [encoding] = encodeFeatures(features, C)
     for image=1:nImages
         % Pre-allocate an array with size (nClusters, 1).
         imEnc = zeros(size(C(:,1)));
-        % For each descriptor, calculate the 
         for descriptor = 1:nDescriptors
             % Get one complete descriptor from the tensor.
             singleDescriptor = double(features(image, :, descriptor));
@@ -29,6 +28,7 @@ function [encoding] = encodeFeatures(features, C)
             imEnc(minK) = imEnc(minK)+1;
         end
         % Normalize the histogram.
+        imEnc(~imEnc) = 0.0001; % to avoid Nans when normalizing
         imEnc = normalize(imEnc,'norm',1);
         % Add the histogram for this image to the encodings.
         encoding(image, :) = imEnc';
