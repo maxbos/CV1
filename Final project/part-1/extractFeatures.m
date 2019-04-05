@@ -4,7 +4,7 @@ function descr = extractFeatures(X, mode)
     nImages = size(X, 1);
     
     if (strcmp(mode(2), 'dense'))
-        step = 10;
+        step = 20;
         binSizes = [4 7 10];
 
         % Extract the features for the first image.

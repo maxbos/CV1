@@ -1,4 +1,4 @@
-function [testImgs, classifications, positiveCount] = classifyBatch(dataset, models, batchSize, mode, C)
+function [testImgs, classifications, positiveCount, testY] = classifyBatch(dataset, models, batchSize, mode, C)
 % Classify a specified number of images (batchSize) from the dataset with
 % supplied models and visual words (C) and visual word sampling method (mode) 
     classifications = struct;

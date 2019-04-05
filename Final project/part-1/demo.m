@@ -49,7 +49,8 @@ function [classifications, map] = demo(...
 
     % Classification phase
     test = open('stl10_matlab/test.mat');
-    [testImgs, classifications, positiveCount] = classifyBatch(test, SVModels, batchSize, mode, C);
+    [testImgs, classifications, positiveCount, testY] = classifyBatch(...
+        test, SVModels, batchSize, mode, C);
 
     %% Results
     folderName = "topbottom_" + mode(1) + "-" + mode(2) + "_" + clusterNumber;
@@ -57,5 +58,8 @@ function [classifications, map] = demo(...
 
     % Mean Average Precision
     calcMAP(classifications, positiveCount)
+    
+    acc = calcAcc(classifications, testY);
+    disp('Accuracy over multi-classification: ' + acc);
 
 end

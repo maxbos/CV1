@@ -2,9 +2,9 @@
 % compare cluster sizes of 400, 1000 and 4000
 % Evaluation plots 
 
-clear
-close all
-
+% clear
+% close all
+% 
 % mode = ["opponent", "keypoints"]; % this can take the values 'gray', 'rgb' or 
 %                                 % 'opponent' and 'dense' or 'keypoints'
 % train = open('stl10_matlab/train.mat');
@@ -50,26 +50,36 @@ close all
 % 
 % % Classification phase
 % test = open('stl10_matlab/test.mat');
-% batchSize = 800*5;
-% [testImgs, classifications, positiveCount] = classifyBatch(test, SVModels, batchSize, mode, C);
+% batchSize = 5;
+% [testImgs, classifications, positiveCount, testY] = classifyBatch(test, SVModels, batchSize, mode, C);
 % 
 % %% Results
 % plotTop5(classifications.ship, testImgs);
 % 
 % % Mean Average Precision
 % calcMAP(classifications, positiveCount)
+% 
+% %%
+% calcAcc(classifications, testY)
 
 %% Cluster size: 400
-demo(["gray", "dense"], 1000, 400, 800*5)
-demo(["rgb", "dense"], 1000, 400, 800*5)
-demo(["opponent", "dense"], 1000, 400, 800*5)
+demo(["gray", "keypoints"], 1000, 400, 800*5)
+demo(["rgb", "keypoints"], 1000, 400, 800*5)
+demo(["opponent", "keypoints"], 1000, 400, 800*5)
 
 %% Cluster size: 1000
-demo(["gray", "dense"], 1000, 1000, 800*5)
-demo(["rgb", "dense"], 1000, 1000, 800*5)
-demo(["opponent", "dense"], 1000, 1000, 800*5)
+demo(["gray", "keypoints"], 1000, 1000, 800*5)
+demo(["rgb", "keypoints"], 1000, 1000, 800*5)
+demo(["opponent", "keypoints"], 1000, 1000, 800*5)
 
 %% Cluster size: 4000
-demo(["gray", "dense"], 1000, 4000, 800*5)
+demo(["gray", "keypoints"], 1000, 4000, 800*5)
+demo(["rgb", "keypoints"], 1000, 4000, 800*5)
+demo(["opponent", "keypoints"], 1000, 4000, 800*5)
+
+%%
 demo(["rgb", "dense"], 1000, 4000, 800*5)
 demo(["opponent", "dense"], 1000, 4000, 800*5)
+
+%% Calculate accuracy over best model
+demo(["rgb", "dense"], 1000, 1000, 800*5)
